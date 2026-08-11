@@ -1,0 +1,663 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    background: #f4f8fc;
+}
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* =========================
+   LEFT SECTION
+========================= */
+
+.welcome-section {
+    width: 55%;
+    min-height: 100vh;
+    padding: 50px 70px;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255,255,255,0.18),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #087f8c,
+            #075985,
+            #123b70
+        );
+
+    color: white;
+}
+
+
+/* Decorative circles */
+
+.welcome-section::before {
+    content: "";
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    right: -180px;
+    top: -150px;
+
+    border: 80px solid rgba(255,255,255,0.05);
+}
+
+.welcome-section::after {
+    content: "";
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    left: -150px;
+    bottom: -150px;
+
+    background: rgba(255,255,255,0.05);
+}
+
+
+/* Brand */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.brand h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.brand h2 span {
+    color: #8df3e8;
+}
+
+.brand p {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 2px;
+}
+
+
+/* Medical logo */
+
+.medical-logo {
+    width: 52px;
+    height: 52px;
+
+    background: rgba(255,255,255,0.15);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.medical-logo span:first-child {
+    width: 26px;
+    height: 8px;
+
+    background: white;
+
+    border-radius: 4px;
+
+    position: absolute;
+}
+
+.medical-logo span:last-child {
+    width: 8px;
+    height: 26px;
+
+    background: white;
+
+    border-radius: 4px;
+
+    position: absolute;
+}
+
+
+/* Welcome content */
+
+.welcome-content {
+    max-width: 590px;
+
+    position: relative;
+    z-index: 2;
+
+    margin-top: 125px;
+}
+
+.welcome-content h1 {
+    font-size: clamp(42px, 4vw, 64px);
+    line-height: 1.08;
+    font-weight: 700;
+
+    letter-spacing: -1.5px;
+}
+
+.welcome-content h1 span {
+    color: #8df3e8;
+}
+
+.welcome-content > p {
+    margin-top: 28px;
+
+    max-width: 510px;
+
+    font-size: 17px;
+    line-height: 1.8;
+
+    color: rgba(255,255,255,0.78);
+}
+
+
+/* Features */
+
+.features {
+    margin-top: 42px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+}
+
+.feature-icon {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(141,243,232,0.15);
+
+    color: #8df3e8;
+
+    font-weight: bold;
+
+    border: 1px solid rgba(141,243,232,0.25);
+}
+
+.feature strong {
+    display: block;
+
+    font-size: 15px;
+}
+
+.feature small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: rgba(255,255,255,0.6);
+
+    font-size: 12px;
+}
+
+
+/* Copyright */
+
+.copyright {
+    position: absolute;
+
+    bottom: 30px;
+    left: 70px;
+
+    color: rgba(255,255,255,0.45);
+
+    font-size: 12px;
+
+    z-index: 2;
+}
+
+
+/* =========================
+   RIGHT SECTION
+========================= */
+
+.login-section {
+    width: 45%;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    background: #f8fbfd;
+}
+
+
+/* Login Card */
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+
+    padding: 45px;
+
+    background: rgba(255,255,255,0.95);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 70px rgba(16,42,67,0.12);
+
+    border: 1px solid rgba(220,230,240,0.8);
+}
+
+
+/* Header */
+
+.login-header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.lock-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e8f8f7;
+
+    border-radius: 18px;
+
+    font-size: 25px;
+}
+
+.login-header h1 {
+    color: #12304a;
+
+    font-size: 30px;
+
+    margin-bottom: 9px;
+}
+
+.login-header p {
+    color: #7a8998;
+
+    font-size: 14px;
+}
+
+
+/* Input */
+
+.input-group {
+    margin-bottom: 23px;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #30465a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.input-box {
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #dce5ec;
+
+    border-radius: 12px;
+
+    background: #fbfdff;
+
+    transition: 0.25s;
+}
+
+.input-box:focus-within {
+    border-color: #088b99;
+
+    box-shadow:
+        0 0 0 4px rgba(8,139,153,0.1);
+
+    background: white;
+}
+
+.input-icon {
+    margin-left: 16px;
+
+    font-size: 15px;
+
+    opacity: 0.55;
+}
+
+.input-box input {
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    padding: 0 13px;
+
+    font-size: 14px;
+
+    color: #243746;
+}
+
+.input-box input::placeholder {
+    color: #a6b1ba;
+}
+
+
+/* Password */
+
+.password-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.password-label a {
+    color: #07818d;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.password-label a:hover {
+    text-decoration: underline;
+}
+
+.show-password {
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    margin-right: 14px;
+
+    font-size: 15px;
+
+    opacity: 0.55;
+}
+
+
+/* Remember */
+
+.remember {
+    margin: 5px 0 25px;
+}
+
+.remember label {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    color: #657786;
+}
+
+.remember input {
+    width: 16px;
+    height: 16px;
+
+    accent-color: #078b99;
+}
+
+
+/* Login Button */
+
+.login-button {
+    width: 100%;
+
+    height: 56px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #078b99,
+            #075985
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    box-shadow:
+        0 10px 25px rgba(7,139,153,0.25);
+
+    transition: 0.25s;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(7,139,153,0.32);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.arrow {
+    font-size: 20px;
+
+    transition: 0.25s;
+}
+
+.login-button:hover .arrow {
+    transform: translateX(5px);
+}
+
+
+/* Security */
+
+.security-note {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #edf1f4;
+}
+
+.security-note p {
+    color: #8996a1;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+/* Mobile logo */
+
+.mobile-logo {
+    display: none;
+}
+
+
+/* Messages */
+
+.message {
+    padding: 11px 14px;
+
+    margin-bottom: 20px;
+
+    background: #fff1f1;
+
+    border: 1px solid #ffd3d3;
+
+    color: #c0392b;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+
+    .welcome-section {
+        width: 48%;
+
+        padding: 40px;
+    }
+
+    .login-section {
+        width: 52%;
+
+        padding: 25px;
+    }
+
+    .welcome-content {
+        margin-top: 100px;
+    }
+
+    .welcome-content h1 {
+        font-size: 42px;
+    }
+
+    .login-card {
+        padding: 35px;
+    }
+
+    .copyright {
+        left: 40px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .login-page {
+        display: block;
+    }
+
+    .welcome-section {
+        display: none;
+    }
+
+    .login-section {
+        width: 100%;
+
+        min-height: 100vh;
+
+        padding: 20px;
+    }
+
+    .login-card {
+        max-width: 450px;
+
+        padding: 32px 25px;
+
+        border-radius: 20px;
+    }
+
+    .mobile-logo {
+        display: flex;
+
+        justify-content: center;
+
+        margin-bottom: 25px;
+    }
+
+    .mobile-logo .medical-logo {
+        background: linear-gradient(
+            135deg,
+            #078b99,
+            #075985
+        );
+    }
+}

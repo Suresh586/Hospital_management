@@ -1,0 +1,547 @@
+/* =====================================================
+   RESET
+===================================================== */
+.nav-item.active {
+    background: #eaf4ff;
+    color: #1677ff;
+}
+
+.nav-item.active .nav-icon {
+    color: #1677ff;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   MAIN APPLICATION LAYOUT
+===================================================== */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        160deg,
+        #073b4c,
+        #075985,
+        #087f8c
+    );
+
+    color: white;
+
+    padding: 28px 18px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 100;
+}
+
+
+/* =====================================================
+   BRAND / LOGO
+===================================================== */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 5px 10px 30px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.medical-logo {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    flex-shrink: 0;
+}
+
+.medical-logo span:first-child {
+    width: 22px;
+    height: 7px;
+
+    background: white;
+
+    border-radius: 5px;
+
+    position: absolute;
+}
+
+.medical-logo span:last-child {
+    width: 7px;
+    height: 22px;
+
+    background: white;
+
+    border-radius: 5px;
+
+    position: absolute;
+}
+
+.brand h2 {
+    font-size: 21px;
+    color: white;
+}
+
+.brand h2 span {
+    color: #8df3e8;
+}
+
+.brand p {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.navigation {
+    margin-top: 28px;
+    flex: 1;
+}
+
+.menu-title {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+
+    letter-spacing: 1.2px;
+
+    padding: 0 13px;
+
+    margin-bottom: 10px;
+}
+
+.menu-title.second {
+    margin-top: 28px;
+}
+
+
+/* =====================================================
+   NAV ITEMS
+===================================================== */
+
+.nav-item {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 12px 14px;
+
+    margin: 4px 0;
+
+    border-radius: 10px;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    color: white;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    transform: translateX(3px);
+}
+
+.nav-item.active {
+    color: white;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    box-shadow: inset 3px 0 #8df3e8;
+}
+
+.nav-icon {
+    width: 22px;
+
+    font-size: 17px;
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+
+/* =====================================================
+   SIDEBAR BOTTOM
+===================================================== */
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+
+/* =====================================================
+   HELP CARD
+===================================================== */
+
+.help-card {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    margin-bottom: 12px;
+}
+
+.help-icon {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(141, 243, 232, 0.15);
+
+    color: #8df3e8;
+
+    font-weight: bold;
+
+    flex-shrink: 0;
+}
+
+.help-card strong {
+    font-size: 11px;
+}
+
+.help-card p {
+    font-size: 9px;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    margin-top: 2px;
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+.logout {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 14px;
+
+    color: rgba(255, 255, 255, 0.6);
+
+    font-size: 13px;
+
+    border-radius: 9px;
+
+    transition: all 0.2s ease;
+}
+
+.logout:hover {
+    background: rgba(255, 255, 255, 0.08);
+
+    color: white;
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.main-content {
+    margin-left: 260px;
+
+    width: calc(100% - 260px);
+
+    min-height: 100vh;
+
+    padding: 30px 38px;
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 32px;
+}
+
+.welcome-small {
+    font-size: 12px;
+
+    color: #8797a5;
+
+    margin-bottom: 5px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+
+    color: #173b53;
+}
+
+
+/* =====================================================
+   TOPBAR ACTIONS
+===================================================== */
+
+.top-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.notification {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid #e3eaf0;
+
+    border-radius: 11px;
+
+    background: white;
+
+    cursor: pointer;
+
+    position: relative;
+
+    color: #64748b;
+}
+
+.notification-dot {
+    width: 7px;
+    height: 7px;
+
+    background: #ef6a6a;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    top: 9px;
+    right: 9px;
+
+    border: 2px solid white;
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #078b99,
+        #075985
+    );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 600;
+}
+
+.profile-info strong {
+    display: block;
+
+    font-size: 12px;
+
+    color: #29475b;
+}
+
+.profile-info span {
+    display: block;
+
+    font-size: 10px;
+
+    color: #9aa7b1;
+
+    margin-top: 3px;
+}
+
+.profile-arrow {
+    font-size: 8px;
+
+    color: #9ba8b2;
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.mobile-menu {
+    display: none;
+
+    font-size: 20px;
+
+    color: #475569;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 70px;
+
+        padding: 20px 10px;
+    }
+
+    .brand > div:not(.medical-logo),
+    .nav-item span:last-child,
+    .menu-title,
+    .help-card,
+    .logout span:last-child {
+        display: none;
+    }
+
+    .brand {
+        justify-content: center;
+
+        padding-bottom: 25px;
+    }
+
+    .nav-item {
+        justify-content: center;
+
+        padding: 13px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+
+        width: calc(100% - 70px);
+
+        padding: 25px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+
+        width: 100%;
+
+        padding: 18px;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .topbar {
+        gap: 15px;
+    }
+
+    .profile-info,
+    .profile-arrow {
+        display: none;
+    }
+}

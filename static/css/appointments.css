@@ -1,0 +1,416 @@
+/* ================= APPOINTMENTS PAGE ================= */
+
+.appointments-page {
+    padding: 30px;
+    max-width: 1600px;
+    margin: auto;
+}
+
+/* ================= HEADER ================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 30px;
+    color: #0f172a;
+}
+
+.page-header p {
+    margin: 5px 0 0;
+    color: #64748b;
+}
+
+.add-appointment-btn {
+    background: #2563eb;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.add-appointment-btn:hover {
+    background: #1d4ed8;
+}
+
+/* ================= STATISTICS ================= */
+
+.appointment-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+}
+
+.stat-icon.blue {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.stat-icon.orange {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.stat-icon.green {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.stat-icon.purple {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.stat-card span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.stat-card h2 {
+    margin: 4px 0;
+    color: #0f172a;
+}
+
+/* ================= CARDS ================= */
+
+.booking-card,
+.appointments-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.booking-header,
+.section-header {
+    padding: 22px 25px;
+    border-bottom: 1px solid #eef2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-header h2,
+.section-header h2 {
+    margin: 0;
+    color: #0f172a;
+}
+
+.booking-header p,
+.section-header p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* ================= BOOKING FORM ================= */
+
+.booking-card form {
+    padding: 25px;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+}
+
+.booking-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.cancel-btn,
+.book-btn {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cancel-btn {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.book-btn {
+    background: #2563eb;
+    color: white;
+}
+
+/* ================= FILTER ================= */
+
+.filter-bar {
+    padding: 20px 25px;
+    display: grid;
+    grid-template-columns: 1fr 180px 180px auto;
+    gap: 12px;
+}
+
+.search-box input,
+.filter-bar select,
+.filter-date {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    padding: 0 12px;
+}
+
+.filter-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th,
+td {
+    padding: 15px 18px;
+    text-align: left;
+}
+
+th {
+    font-size: 12px;
+    color: #64748b;
+}
+
+td {
+    border-top: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 13px;
+}
+
+.appointment-id {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.doctor-info strong,
+.person-info strong {
+    color: #1e293b;
+}
+
+.doctor-info span,
+.person-info span {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* ================= STATUS ================= */
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status.pending {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.status.confirmed {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.status.completed {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.status.cancelled {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* ================= ACTIONS ================= */
+
+.actions {
+    display: flex;
+    gap: 6px;
+}
+
+.action {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.action.view {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.action.edit {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.action.delete {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* ================= PAGINATION ================= */
+
+.pagination {
+    padding: 18px 25px;
+    border-top: 1px solid #eef2f7;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination-buttons button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 7px;
+}
+
+.pagination-buttons .active {
+    background: #2563eb;
+    color: white;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1100px) {
+    .appointment-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .appointments-page {
+        padding: 20px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .appointment-stats,
+    .booking-grid,
+    .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .booking-header,
+    .section-header,
+    .pagination {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}

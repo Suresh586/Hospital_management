@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}CarePlus | Hospital Management{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/dashboard.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="medical-logo">
+                <span></span>
+                <span></span>
+            </div>
+
+            <div>
+                <h2>Care<span>Plus</span></h2>
+                <p>Hospital Management</p>
+            </div>
+
+        </div>
+
+        <!-- Navigation -->
+
+        <nav class="navigation">
+
+            <p class="menu-title">MAIN MENU</p>
+
+            <a href="{% url 'home' %}"
+               class="nav-item {% block dashboard_active %}{% endblock %}">
+
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="{% url 'patients' %}"
+               class="nav-item {% block patients_active %}{% endblock %}">
+
+                <span class="nav-icon">♙</span>
+                <span>Patients</span>
+
+            </a>
+
+
+            <a href="{% url 'doctors' %}"
+               class="nav-item {% block doctors_active %}{% endblock %}">
+
+                <span class="nav-icon">⚕</span>
+                <span>Doctors</span>
+
+            </a>
+
+
+            <a href="{% url 'appointment' %}"
+               class="nav-item {% block appointments_active %}{% endblock %}">
+
+                <span class="nav-icon">▣</span>
+                <span>Appointments</span>
+
+            </a>
+
+
+            <p class="menu-title second">MANAGEMENT</p>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <span class="nav-icon">▤</span>
+                <span>Billing</span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <span class="nav-icon">✚</span>
+                <span>Pharmacy</span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a href="#"
+               class="nav-item">
+
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need Help?</strong>
+                    <p>Contact support</p>
+                </div>
+
+            </div>
+
+
+            <a href="#" class="logout">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+</div>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

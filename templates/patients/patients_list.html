@@ -1,0 +1,600 @@
+{% extends 'base.html' %}
+{% block patients_active %}active{% endblock %}
+{% load static %}
+
+{% block title %}
+ CarePlus | Patients 
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/patients.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= PATIENT PAGE ================= -->
+
+<section class="content">
+
+    <!-- STATISTICS -->
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fa-solid fa-hospital-user"></i>
+            </div>
+
+            <div>
+                <span>Total Patients</span>
+                <h2>1,248</h2>
+                <small class="positive">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    8.4% this month
+                </small>
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+                <span>New Patients</span>
+                <h2>86</h2>
+                <small class="positive">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    12.5% this month
+                </small>
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <i class="fa-solid fa-calendar-day"></i>
+            </div>
+
+            <div>
+                <span>Today's Visits</span>
+                <h2>42</h2>
+                <small>Scheduled today</small>
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-icon orange">
+                <i class="fa-solid fa-user-clock"></i>
+            </div>
+
+            <div>
+                <span>Active Patients</span>
+                <h2>318</h2>
+                <small>Currently under care</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- PATIENT MANAGEMENT HEADER -->
+
+    <div class="section-header">
+
+        <div>
+            <h2>Patient Records</h2>
+            <p>View and manage registered patients</p>
+        </div>
+
+        <button class="primary-btn">
+            <i class="fa-solid fa-plus"></i>
+            Register Patient
+        </button>
+
+    </div>
+
+
+    <!-- SEARCH + FILTER -->
+
+    <div class="filter-card">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                placeholder="Search by patient name, ID, phone or email..."
+            >
+
+        </div>
+
+        <select>
+            <option>All Patients</option>
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
+
+        <select>
+            <option>All Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <button class="filter-btn">
+            <i class="fa-solid fa-filter"></i>
+            Filter
+        </button>
+
+    </div>
+
+
+    <!-- PATIENT TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div>
+                <h3>All Patients</h3>
+                <span>Showing 6 of 1,248 patients</span>
+            </div>
+
+            <button class="export-btn">
+                <i class="fa-solid fa-download"></i>
+                Export
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Patient ID</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Blood Group</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    <!-- PATIENT 1 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-blue">
+                                    RK
+                                </div>
+
+                                <div>
+                                    <strong>Rahul Kumar</strong>
+                                    <span>rahul@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10001
+                            </span>
+                        </td>
+
+                        <td>Male</td>
+
+                        <td>32</td>
+
+                        <td>
+                            <span class="blood-group">
+                                O+
+                            </span>
+                        </td>
+
+                        <td>+91 98765 43210</td>
+
+                        <td>
+                            <span class="status active-status">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button title="View">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button title="Edit">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button title="More">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <!-- PATIENT 2 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-purple">
+                                    PS
+                                </div>
+
+                                <div>
+                                    <strong>Priya Sharma</strong>
+                                    <span>priya@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10002
+                            </span>
+                        </td>
+
+                        <td>Female</td>
+
+                        <td>27</td>
+
+                        <td>
+                            <span class="blood-group">
+                                A+
+                            </span>
+                        </td>
+
+                        <td>+91 91234 56789</td>
+
+                        <td>
+                            <span class="status active-status">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button>
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <!-- PATIENT 3 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-green">
+                                    AM
+                                </div>
+
+                                <div>
+                                    <strong>Arun Mehta</strong>
+                                    <span>arun@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10003
+                            </span>
+                        </td>
+
+                        <td>Male</td>
+
+                        <td>45</td>
+
+                        <td>
+                            <span class="blood-group">
+                                B+
+                            </span>
+                        </td>
+
+                        <td>+91 99887 66554</td>
+
+                        <td>
+                            <span class="status active-status">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button>
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <!-- PATIENT 4 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-orange">
+                                    SN
+                                </div>
+
+                                <div>
+                                    <strong>Sneha Nair</strong>
+                                    <span>sneha@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10004
+                            </span>
+                        </td>
+
+                        <td>Female</td>
+
+                        <td>36</td>
+
+                        <td>
+                            <span class="blood-group">
+                                AB+
+                            </span>
+                        </td>
+
+                        <td>+91 93456 78901</td>
+
+                        <td>
+                            <span class="status inactive-status">
+                                Inactive
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button>
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <!-- PATIENT 5 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-red">
+                                    VK
+                                </div>
+
+                                <div>
+                                    <strong>Vikram Kumar</strong>
+                                    <span>vikram@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10005
+                            </span>
+                        </td>
+
+                        <td>Male</td>
+
+                        <td>51</td>
+
+                        <td>
+                            <span class="blood-group">
+                                O-
+                            </span>
+                        </td>
+
+                        <td>+91 98712 34567</td>
+
+                        <td>
+                            <span class="status active-status">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button>
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <!-- PATIENT 6 -->
+
+                    <tr>
+
+                        <td>
+                            <div class="patient-info">
+
+                                <div class="patient-avatar avatar-pink">
+                                    AD
+                                </div>
+
+                                <div>
+                                    <strong>Anjali Deshmukh</strong>
+                                    <span>anjali@gmail.com</span>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="patient-id">
+                                PT-10006
+                            </span>
+                        </td>
+
+                        <td>Female</td>
+
+                        <td>29</td>
+
+                        <td>
+                            <span class="blood-group">
+                                B-
+                            </span>
+                        </td>
+
+                        <td>+91 90123 45678</td>
+
+                        <td>
+                            <span class="status active-status">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="actions">
+
+                                <button>
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- PAGINATION -->
+
+        <div class="pagination">
+
+            <span>
+                Showing 1–6 of 1,248 patients
+            </span>
+
+            <div class="pagination-buttons">
+
+                <button disabled>
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <button class="page-active">1</button>
+
+                <button>2</button>
+
+                <button>3</button>
+
+                <span>...</span>
+
+                <button>208</button>
+
+                <button>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
