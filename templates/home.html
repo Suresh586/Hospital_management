@@ -1,0 +1,644 @@
+{% extends 'base.html' %}
+
+{% block title %}
+CarePlus | Dashboard
+{% endblock %}
+
+{% block dashboard_active %}
+active
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ================= TOP BAR ================= -->
+
+<header class="topbar">
+
+    <div>
+
+        <p class="welcome-small">
+            Welcome back 👋
+        </p>
+
+        <h1>Hospital Dashboard</h1>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <button class="notification">
+            🔔
+            <span class="notification-dot"></span>
+        </button>
+
+
+        <div class="profile">
+
+            <div class="avatar">
+                {{ request.user.username|first|upper }}
+            </div>
+
+            <div class="profile-info">
+
+                <strong>
+                    {{ request.user.username }}
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+            <span class="profile-arrow">
+                ▼
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================= OVERVIEW ================= -->
+
+<section class="overview">
+
+    <div class="section-heading">
+
+        <div>
+
+            <h2>Overview</h2>
+
+            <p>
+                Here's what's happening in your hospital today.
+            </p>
+
+        </div>
+
+        <button class="date-button">
+            📅 Today
+        </button>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <div class="stats-grid">
+
+
+        <!-- Patients -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon patients">
+                    ♙
+                </div>
+
+                <span class="growth positive">
+                    +12.5%
+                </span>
+
+            </div>
+
+            <p>Total Patients</p>
+
+            <h3>1,248</h3>
+
+            <span class="stat-footer">
+                Compared to last month
+            </span>
+
+        </div>
+
+
+        <!-- Doctors -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon doctors">
+                    ⚕
+                </div>
+
+                <span class="growth positive">
+                    +4.2%
+                </span>
+
+            </div>
+
+            <p>Active Doctors</p>
+
+            <h3>86</h3>
+
+            <span class="stat-footer">
+                8 departments
+            </span>
+
+        </div>
+
+
+        <!-- Appointments -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon appointments">
+                    ▣
+                </div>
+
+                <span class="growth positive">
+                    +8.7%
+                </span>
+
+            </div>
+
+            <p>Today's Appointments</p>
+
+            <h3>124</h3>
+
+            <span class="stat-footer">
+                18 remaining
+            </span>
+
+        </div>
+
+
+        <!-- Revenue -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon revenue">
+                    ₹
+                </div>
+
+                <span class="growth positive">
+                    +15.3%
+                </span>
+
+            </div>
+
+            <p>Monthly Revenue</p>
+
+            <h3>₹8.42L</h3>
+
+            <span class="stat-footer">
+                Compared to last month
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CONTENT GRID ================= -->
+
+    <div class="content-grid">
+
+
+        <!-- APPOINTMENTS -->
+
+        <div class="panel appointments-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>Today's Appointments</h2>
+
+                    <p>
+                        Upcoming patient appointments
+                    </p>
+
+                </div>
+
+                <a href="#">
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div class="appointment-list">
+
+
+                <div class="appointment">
+
+                    <div class="patient-avatar blue">
+                        AK
+                    </div>
+
+                    <div class="appointment-info">
+
+                        <strong>
+                            Arun Kumar
+                        </strong>
+
+                        <span>
+                            General Consultation
+                        </span>
+
+                    </div>
+
+                    <div class="appointment-time">
+
+                        <strong>
+                            10:30 AM
+                        </strong>
+
+                        <span>
+                            Dr. Priya
+                        </span>
+
+                    </div>
+
+                    <span class="status confirmed">
+                        Confirmed
+                    </span>
+
+                </div>
+
+
+                <div class="appointment">
+
+                    <div class="patient-avatar purple">
+                        RS
+                    </div>
+
+                    <div class="appointment-info">
+
+                        <strong>
+                            Rahul Sharma
+                        </strong>
+
+                        <span>
+                            Cardiology
+                        </span>
+
+                    </div>
+
+                    <div class="appointment-time">
+
+                        <strong>
+                            11:45 AM
+                        </strong>
+
+                        <span>
+                            Dr. Rajesh
+                        </span>
+
+                    </div>
+
+                    <span class="status waiting">
+                        Waiting
+                    </span>
+
+                </div>
+
+
+                <div class="appointment">
+
+                    <div class="patient-avatar green">
+                        SM
+                    </div>
+
+                    <div class="appointment-info">
+
+                        <strong>
+                            Sneha Mehta
+                        </strong>
+
+                        <span>
+                            Dermatology
+                        </span>
+
+                    </div>
+
+                    <div class="appointment-time">
+
+                        <strong>
+                            01:30 PM
+                        </strong>
+
+                        <span>
+                            Dr. Anjali
+                        </span>
+
+                    </div>
+
+                    <span class="status confirmed">
+                        Confirmed
+                    </span>
+
+                </div>
+
+
+                <div class="appointment">
+
+                    <div class="patient-avatar orange">
+                        VK
+                    </div>
+
+                    <div class="appointment-info">
+
+                        <strong>
+                            Vikram Kumar
+                        </strong>
+
+                        <span>
+                            Orthopedics
+                        </span>
+
+                    </div>
+
+                    <div class="appointment-time">
+
+                        <strong>
+                            03:15 PM
+                        </strong>
+
+                        <span>
+                            Dr. Amit
+                        </span>
+
+                    </div>
+
+                    <span class="status cancelled">
+                        Cancelled
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="panel quick-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>Quick Actions</h2>
+
+                    <p>
+                        Frequently used actions
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-grid">
+
+                <a href="#" class="quick-action">
+
+                    <div class="quick-icon patient">
+                        +
+                    </div>
+
+                    <span>
+                        Add Patient
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="quick-action">
+
+                    <div class="quick-icon doctor">
+                        ⚕
+                    </div>
+
+                    <span>
+                        Add Doctor
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="quick-action">
+
+                    <div class="quick-icon appointment">
+                        +
+                    </div>
+
+                    <span>
+                        New Appointment
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="quick-action">
+
+                    <div class="quick-icon billing">
+                        ₹
+                    </div>
+
+                    <span>
+                        Create Bill
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BOTTOM ================= -->
+
+    <div class="bottom-grid">
+
+
+        <!-- DEPARTMENTS -->
+
+        <div class="panel department-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>Departments</h2>
+
+                    <p>
+                        Patient distribution
+                    </p>
+
+                </div>
+
+                <a href="#">
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div class="department-list">
+
+                <div class="department">
+
+                    <div class="department-name">
+
+                        <span class="department-dot cardiology"></span>
+
+                        Cardiology
+
+                    </div>
+
+                    <strong>286</strong>
+
+                </div>
+
+
+                <div class="department">
+
+                    <div class="department-name">
+
+                        <span class="department-dot general"></span>
+
+                        General Medicine
+
+                    </div>
+
+                    <strong>342</strong>
+
+                </div>
+
+
+                <div class="department">
+
+                    <div class="department-name">
+
+                        <span class="department-dot ortho"></span>
+
+                        Orthopedics
+
+                    </div>
+
+                    <strong>198</strong>
+
+                </div>
+
+
+                <div class="department">
+
+                    <div class="department-name">
+
+                        <span class="department-dot dental"></span>
+
+                        Dental
+
+                    </div>
+
+                    <strong>156</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SYSTEM STATUS -->
+
+        <div class="panel system-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>System Status</h2>
+
+                    <p>
+                        Hospital services
+                    </p>
+
+                </div>
+
+                <span class="online">
+                    ● All systems operational
+                </span>
+
+            </div>
+
+
+            <div class="system-list">
+
+                <div>
+
+                    <span>
+                        Patient Management
+                    </span>
+
+                    <strong>
+                        Operational
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Appointment System
+                    </span>
+
+                    <strong>
+                        Operational
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Pharmacy
+                    </span>
+
+                    <strong>
+                        Operational
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Billing System
+                    </span>
+
+                    <strong>
+                        Operational
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

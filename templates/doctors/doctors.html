@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+
+{% block doctors_active %}active{% endblock %}
+{% load static %}
+
+
+{% block title %}
+CarePlus | Doctors
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'css/doctors.css' %}">
+
+{% endblock %}
+
+
+{% block page_title %}
+Doctors
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="page-header">
+
+    <div>
+
+        <h2>Doctor Management</h2>
+
+        <p>
+            Manage doctors, specializations and availability.
+        </p>
+
+    </div>
+
+
+    <a href="#"
+       class="add-doctor-btn">
+
+        <span>+</span>
+        Add Doctor
+
+    </a>
+
+</section>
+
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="doctor-stats">
+
+
+    <div class="doctor-stat-card">
+
+        <div class="doctor-stat-icon total">
+            ⚕
+        </div>
+
+        <div>
+
+            <p>Total Doctors</p>
+
+            <h3>86</h3>
+
+            <span>
+                Registered doctors
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="doctor-stat-card">
+
+        <div class="doctor-stat-icon available">
+            ✓
+        </div>
+
+        <div>
+
+            <p>Available Today</p>
+
+            <h3>64</h3>
+
+            <span>
+                Currently available
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="doctor-stat-card">
+
+        <div class="doctor-stat-icon specialists">
+            ★
+        </div>
+
+        <div>
+
+            <p>Specialists</p>
+
+            <h3>52</h3>
+
+            <span>
+                Specialist doctors
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="doctor-stat-card">
+
+        <div class="doctor-stat-icon departments">
+            ▦
+        </div>
+
+        <div>
+
+            <p>Departments</p>
+
+            <h3>8</h3>
+
+            <span>
+                Medical departments
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SEARCH & FILTER ================= -->
+
+<section class="filter-panel">
+
+
+    <div class="search-box">
+
+        <span>⌕</span>
+
+        <input
+            type="text"
+            id="doctorSearch"
+            placeholder="Search doctor by name, ID or phone..."
+        >
+
+    </div>
+
+
+    <div class="filter-box">
+
+        <select id="specializationFilter">
+
+            <option value="">
+                All Specializations
+            </option>
+
+            <option value="Cardiology">
+                Cardiology
+            </option>
+
+            <option value="Neurology">
+                Neurology
+            </option>
+
+            <option value="Orthopedics">
+                Orthopedics
+            </option>
+
+            <option value="Dermatology">
+                Dermatology
+            </option>
+
+            <option value="Pediatrics">
+                Pediatrics
+            </option>
+
+            <option value="General Medicine">
+                General Medicine
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="filter-box">
+
+        <select id="statusFilter">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option value="Available">
+                Available
+            </option>
+
+            <option value="Unavailable">
+                Unavailable
+            </option>
+
+            <option value="On Leave">
+                On Leave
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button class="filter-button">
+
+        ⚙
+        Filters
+
+    </button>
+
+</section>
+
+
+<!-- ================= DOCTOR TABLE ================= -->
+
+<section class="doctor-table-panel">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Doctor List</h2>
+
+            <p>
+                View and manage all registered doctors.
+            </p>
+
+        </div>
+
+
+        <div class="table-actions">
+
+            <button>
+                ⇩ Export
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>DOCTOR</th>
+                    <th>CONTACT</th>
+                    <th>SPECIALIZATION</th>
+                    <th>QUALIFICATION</th>
+                    <th>EXPERIENCE</th>
+                    <th>FEE</th>
+                    <th>AVAILABILITY</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <!-- DOCTOR 1 -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="doctor-profile">
+
+                            <div class="doctor-avatar blue">
+                                PR
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Dr. Priya Reddy
+                                </strong>
+
+                                <span>
+                                    DOC-001
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="contact-info">
+
+                            <span>
+                                priya@careplus.com
+                            </span>
+
+                            <span>
+                                +91 98765 43210
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="specialization cardiology">
+                            Cardiology
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        MBBS, MD
+                    </td>
+
+
+                    <td>
+                        12 Years
+                    </td>
+
+
+                    <td>
+                        ₹800
+                    </td>
+
+
+                    <td>
+
+                        <div class="availability">
+
+                            <span class="available-dot"></span>
+
+                            <div>
+
+                                <strong>
+                                    Mon - Fri
+                                </strong>
+
+                                <small>
+                                    09:00 AM - 02:00 PM
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="status available-status">
+                            Available
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <a href="#"
+                               class="action view">
+                                👁
+                            </a>
+
+                            <a href="#"
+                               class="action edit">
+                                ✎
+                            </a>
+
+                            <a href="#"
+                               class="action delete">
+                                🗑
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- KEEP YOUR OTHER DOCTOR ROWS HERE -->
+
+                <!-- DOCTOR 2 -->
+                <!-- DOCTOR 3 -->
+                <!-- DOCTOR 4 -->
+                <!-- DOCTOR 5 -->
+                <!-- DOCTOR 6 -->
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- PAGINATION -->
+
+    <div class="pagination">
+
+        <span>
+            Showing 1-6 of 86 doctors
+        </span>
+
+
+        <div class="pagination-buttons">
+
+            <button disabled> 
+                ‹
+            </button>
+
+            <button class="current">
+                1
+            </button>
+
+            <button>
+                2
+            </button>
+
+            <button>
+                3
+            </button>
+
+            <span>
+                ...
+            </span>
+
+            <button>
+                15
+            </button>
+
+            <button>
+                ›
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

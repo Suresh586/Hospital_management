@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Management | Login</title>
+
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <!-- Left Side -->
+        <div class="welcome-section">
+
+            <div class="brand">
+                <div class="medical-logo">
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div>
+                    <h2>Care<span>Plus</span></h2>
+                    <p>Hospital Management</p>
+                </div>
+            </div>
+
+            <div class="welcome-content">
+
+                <h1>Healthcare made<br>
+                    <span>simple & smarter.</span>
+                </h1>
+
+                <p>
+                    Manage patients, doctors, appointments, pharmacy
+                    and billing from one powerful platform.
+                </p>
+
+                <div class="features">
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Patient Management</strong>
+                            <small>Complete patient information</small>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Smart Appointments</strong>
+                            <small>Easy appointment scheduling</small>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Secure & Reliable</strong>
+                            <small>Your hospital data stays protected</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="copyright">
+                © 2026 CarePlus Hospital. All rights reserved.
+            </div>
+
+        </div>
+
+
+        <!-- Right Side -->
+        <div class="login-section">
+
+            <div class="login-card">
+
+                <div class="mobile-logo">
+                    <div class="medical-logo">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="login-header">
+
+                    <div class="lock-icon">
+                        🔐
+                    </div>
+
+                    <h1>Welcome Back</h1>
+
+                    <p>
+                        Sign in to access your hospital dashboard
+                    </p>
+
+                </div>
+
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="input-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">👤</span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <div class="password-label">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+                        <div class="input-box">
+
+                            <span class="input-icon">🔒</span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword()"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="remember">
+
+                        <label>
+                            <input type="checkbox" name="remember">
+                            <span>Remember me</span>
+                        </label>
+
+                    </div>
+
+
+                    <button type="submit" class="login-button">
+
+                        <span>Sign In</span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <div class="security-note">
+
+                    <span>🛡️</span>
+
+                    <p>
+                        Your information is protected with
+                        secure authentication.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".show-password");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.textContent = "🙈";
+
+            } else {
+
+                password.type = "password";
+
+                button.textContent = "👁";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
