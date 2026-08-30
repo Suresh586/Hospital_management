@@ -1,0 +1,913 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block appointments_active %}
+active
+{% endblock %}
+
+
+{% block title %}
+Appointments | CarePlus
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/appointments.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="appointments-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-header-left">
+
+            <span class="page-label">
+                HOSPITAL MANAGEMENT
+            </span>
+
+            <h1>Appointments</h1>
+
+            <p>
+                Schedule, track and manage patient appointments.
+            </p>
+
+        </div>
+
+
+        <a
+            href="#book-appointment"
+            class="add-appointment-btn"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Book Appointment
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         DJANGO MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message {{ message.tags }}">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="appointment-stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div class="stat-content">
+
+                <span>Total Appointments</span>
+
+                <h2>
+                    {{ total_appointments|default:0 }}
+                </h2>
+
+                <small>
+                    All appointments
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon orange">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+
+            <div class="stat-content">
+
+                <span>Pending</span>
+
+                <h2>
+                    {{ pending_appointments|default:0 }}
+                </h2>
+
+                <small>
+                    Waiting for confirmation
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div class="stat-content">
+
+                <span>Confirmed</span>
+
+                <h2>
+                    {{ confirmed_appointments|default:0 }}
+                </h2>
+
+                <small>
+                    Upcoming appointments
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+                <i class="fa-solid fa-calendar-day"></i>
+            </div>
+
+            <div class="stat-content">
+
+                <span>Today's Appointments</span>
+
+                <h2>
+                    {{ today_appointments|default:0 }}
+                </h2>
+
+                <small>
+                    Scheduled today
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOOK APPOINTMENT
+    ====================================================== -->
+
+    <div
+        class="booking-card"
+        id="book-appointment"
+    >
+
+        <div class="booking-header">
+
+            <div class="booking-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+
+                <div>
+
+                    <span class="section-label">
+                        APPOINTMENT MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Book New Appointment
+                    </h2>
+
+                    <p>
+                        Select a registered patient and doctor.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <form
+            method="POST"
+            class="appointment-form"
+        >
+
+            {% csrf_token %}
+
+
+            <div class="booking-grid">
+
+                <!-- PATIENT -->
+
+                <div class="form-group">
+
+                    <div class="field-label-row">
+
+                        <label for="patient">
+                            Patient
+                        </label>
+
+                        
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-hospital-user"></i>
+
+                        <select
+                            name="patient"
+                            id="patient"
+                            required
+                        >
+
+                            <option value="">
+                                Select Patient
+                            </option>
+
+                            {% for patient in patients %}
+
+                                <option
+                                    value="{{ patient.id }}"
+                                >
+
+                                    {{ patient.name }}
+
+                                    {% if patient.patient_id %}
+                                        — {{ patient.patient_id }}
+                                    {% endif %}
+
+                                </option>
+
+                            {% empty %}
+
+                                <option value="" disabled>
+                                    No patients registered
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <span class="field-help">
+                        Select an existing patient or add a new patient.
+                    </span>
+
+                </div>
+
+
+                <!-- DOCTOR -->
+
+                <div class="form-group">
+
+                    <div class="field-label-row">
+
+                        <label for="doctor">
+                            Doctor
+                        </label>
+
+                        <span class="field-label-note">
+                            Select registered doctor
+                        </span>
+
+                    </div>
+
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-user-doctor"></i>
+
+                        <select
+                            name="doctor"
+                            id="doctor"
+                            required
+                        >
+
+                            <option value="">
+                                Select Doctor
+                            </option>
+
+                            {% for doctor in doctors %}
+
+                                <option
+                                    value="{{ doctor.id }}"
+                                >
+
+                                    Dr. {{ doctor.name }}
+
+                                    {% if doctor.specialization %}
+                                        — {{ doctor.specialization }}
+                                    {% endif %}
+
+                                </option>
+
+                            {% empty %}
+
+                                <option value="" disabled>
+                                    No doctors available
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <span class="field-help">
+                        Select the doctor responsible for this appointment.
+                    </span>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="appointment_date">
+                        Appointment Date
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        <input
+                            type="date"
+                            name="date"
+                            id="appointment_date"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="form-group">
+
+                    <label for="appointment_time">
+                        Appointment Time
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-regular fa-clock"></i>
+
+                        <select
+                            name="time"
+                            id="appointment_time"
+                            required
+                        >
+
+                            <option value="">
+                                Select Time
+                            </option>
+
+                            <option value="09:00">
+                                09:00 AM
+                            </option>
+
+                            <option value="09:30">
+                                09:30 AM
+                            </option>
+
+                            <option value="10:00">
+                                10:00 AM
+                            </option>
+
+                            <option value="10:30">
+                                10:30 AM
+                            </option>
+
+                            <option value="11:00">
+                                11:00 AM
+                            </option>
+
+                            <option value="11:30">
+                                11:30 AM
+                            </option>
+
+                            <option value="12:00">
+                                12:00 PM
+                            </option>
+
+                            <option value="14:00">
+                                02:00 PM
+                            </option>
+
+                            <option value="14:30">
+                                02:30 PM
+                            </option>
+
+                            <option value="15:00">
+                                03:00 PM
+                            </option>
+
+                            <option value="15:30">
+                                03:30 PM
+                            </option>
+
+                            <option value="16:00">
+                                04:00 PM
+                            </option>
+
+                            <option value="16:30">
+                                04:30 PM
+                            </option>
+
+                            <option value="17:00">
+                                05:00 PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REASON -->
+
+                <div class="form-group full-width">
+
+                    <label for="reason">
+                        Reason for Visit
+                    </label>
+
+                    <div class="textarea-wrapper">
+
+                        <i class="fa-solid fa-notes-medical"></i>
+
+                        <textarea
+                            name="reason"
+                            id="reason"
+                            rows="4"
+                            placeholder="Enter reason for appointment..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="booking-footer">
+
+                <button
+                    type="reset"
+                    class="cancel-btn"
+                >
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                    Clear
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="book-btn"
+                >
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    Book Appointment
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =====================================================
+         APPOINTMENT LIST
+    ====================================================== -->
+
+    <div class="appointments-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-label">
+                    APPOINTMENT RECORDS
+                </span>
+
+                <h2>
+                    Appointment List
+                </h2>
+
+                <p>
+                    View and manage all hospital appointments.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FILTER -->
+
+        <form
+            method="GET"
+            class="filter-bar"
+        >
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request.GET.search }}"
+                    placeholder="Search patient, doctor or appointment ID..."
+                >
+
+            </div>
+
+
+            <select name="status">
+
+                <option value="">
+                    All Status
+                </option>
+
+                <option
+                    value="Pending"
+                    {% if request.GET.status == "Pending" %}
+                        selected
+                    {% endif %}
+                >
+                    Pending
+                </option>
+
+                <option
+                    value="Confirmed"
+                    {% if request.GET.status == "Confirmed" %}
+                        selected
+                    {% endif %}
+                >
+                    Confirmed
+                </option>
+
+                <option
+                    value="Completed"
+                    {% if request.GET.status == "Completed" %}
+                        selected
+                    {% endif %}
+                >
+                    Completed
+                </option>
+
+                <option
+                    value="Cancelled"
+                    {% if request.GET.status == "Cancelled" %}
+                        selected
+                    {% endif %}
+                >
+                    Cancelled
+                </option>
+
+            </select>
+
+
+            <input
+                type="date"
+                name="date"
+                value="{{ request.GET.date }}"
+                class="filter-date"
+            >
+
+
+            <button
+                type="submit"
+                class="filter-btn"
+            >
+
+                <i class="fa-solid fa-filter"></i>
+
+                Filter
+
+            </button>
+
+        </form>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>APPOINTMENT</th>
+                        <th>PATIENT</th>
+                        <th>DOCTOR</th>
+                        <th>DATE & TIME</th>
+                        <th>REASON</th>
+                        <th>STATUS</th>
+                        <th>CREATED</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for appointment in appointments %}
+
+                    <tr>
+
+                        <td>
+
+                            <span class="appointment-id">
+
+                                {{ appointment.appointment_id }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="person-info">
+
+                                <div class="person-avatar">
+
+                                    {{ appointment.patient.name|slice:":1"|upper }}
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        {{ appointment.patient.name }}
+                                    </strong>
+
+                                    <span>
+
+                                        {% if appointment.patient.patient_id %}
+
+                                            {{ appointment.patient.patient_id }}
+
+                                        {% else %}
+
+                                            Patient #{{ appointment.patient.id }}
+
+                                        {% endif %}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="doctor-info">
+
+                                <strong>
+                                    Dr. {{ appointment.doctor.name }}
+                                </strong>
+
+                                <span>
+                                    {{ appointment.doctor.specialization|default:"General" }}
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="date-time">
+
+                                <strong>
+                                    {{ appointment.date|date:"d M Y" }}
+                                </strong>
+
+                                <span>
+                                    {{ appointment.time|time:"h:i A" }}
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="reason">
+
+                                {{ appointment.reason }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% with status=appointment.status|lower %}
+
+                                <span class="status {{ status }}">
+
+                                    {{ appointment.status }}
+
+                                </span>
+
+                            {% endwith %}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="created-date">
+
+                                {{ appointment.created_at|date:"d M Y" }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+
+                                    <i class="fa-regular fa-calendar-xmark"></i>
+
+                                </div>
+
+                                <h3>
+                                    No appointments found
+                                </h3>
+
+                                <p>
+                                    There are no appointments matching your current filters.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- PAGINATION -->
+
+        {% if appointments.has_other_pages %}
+
+        <div class="pagination">
+
+            <div class="pagination-info">
+
+                Showing
+                {{ appointments.start_index }}
+                –
+                {{ appointments.end_index }}
+                of
+                {{ appointments.paginator.count }}
+                appointments
+
+            </div>
+
+
+            <div class="pagination-buttons">
+
+                {% if appointments.has_previous %}
+
+                    <a
+                        href="?page={{ appointments.previous_page_number }}&search={{ request.GET.search }}&status={{ request.GET.status }}&date={{ request.GET.date }}"
+                        class="page-btn"
+                    >
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                    </a>
+
+                {% endif %}
+
+
+                {% for num in appointments.paginator.page_range %}
+
+                    {% if appointments.number == num %}
+
+                        <span class="page-btn active">
+                            {{ num }}
+                        </span>
+
+                    {% elif num > appointments.number|add:"-2" and num < appointments.number|add:"2" %}
+
+                        <a
+                            href="?page={{ num }}&search={{ request.GET.search }}&status={{ request.GET.status }}&date={{ request.GET.date }}"
+                            class="page-btn"
+                        >
+
+                            {{ num }}
+
+                        </a>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                {% if appointments.has_next %}
+
+                    <a
+                        href="?page={{ appointments.next_page_number }}&search={{ request.GET.search }}&status={{ request.GET.status }}&date={{ request.GET.date }}"
+                        class="page-btn"
+                    >
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

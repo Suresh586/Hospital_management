@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block patients_active %}active{% endblock %}
+
+{% block title %}
+CarePlus | {{ patient.name }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="patient-detail-page">
+
+    <a
+        href="{% url 'patients' %}"
+        class="back-link"
+    >
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Patients
+    </a>
+
+
+    <div class="patient-detail-card">
+
+        <div class="detail-avatar">
+            {{ patient.name|first|upper }}
+        </div>
+
+
+        <div class="detail-main">
+
+            <span class="detail-label">
+                PATIENT
+            </span>
+
+            <h1>
+                {{ patient.name }}
+            </h1>
+
+            <span class="detail-id">
+                {{ patient.patient_id }}
+            </span>
+
+        </div>
+
+
+        <div>
+
+            {% if patient.status == "Active" %}
+
+                <span class="status active-status">
+                    Active
+                </span>
+
+            {% else %}
+
+                <span class="status inactive-status">
+                    Inactive
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="patient-information-grid">
+
+        <div>
+            <span>Gender</span>
+            <strong>{{ patient.gender }}</strong>
+        </div>
+
+        <div>
+            <span>Age</span>
+            <strong>{{ patient.age }} years</strong>
+        </div>
+
+        <div>
+            <span>Blood Group</span>
+            <strong>{{ patient.blood_group }}</strong>
+        </div>
+
+        <div>
+            <span>Phone</span>
+            <strong>{{ patient.phone }}</strong>
+        </div>
+
+        <div>
+            <span>Email</span>
+            <strong>{{ patient.email|default:"Not provided" }}</strong>
+        </div>
+
+        <div>
+            <span>Date of Birth</span>
+            <strong>{{ patient.date_of_birth }}</strong>
+        </div>
+
+        <div>
+            <span>Emergency Contact</span>
+            <strong>
+                {{ patient.emergency_contact_name|default:"Not provided" }}
+            </strong>
+        </div>
+
+        <div>
+            <span>Emergency Phone</span>
+            <strong>
+                {{ patient.emergency_contact_phone|default:"Not provided" }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="patient-address-card">
+
+        <span>ADDRESS</span>
+
+        <p>
+            {{ patient.address|default:"No address provided." }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

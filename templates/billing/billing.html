@@ -1,0 +1,1164 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block billing_active %}active{% endblock %}
+
+{% block title %}Create Bill | CarePlus{% endblock %}
+
+
+{% block content %}
+
+<div
+    class="billing-page"
+    id="billingPage"
+
+    data-patient-url-template="{% url 'billing:patient_details' 0 %}"
+    data-doctor-url-template="{% url 'billing:doctor_details' 0 %}"
+    data-medicine-url-template="{% url 'billing:medicine_details' 0 %}"
+>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="billing-page-header">
+
+        <div class="billing-heading">
+
+            <div class="billing-heading-icon">
+                ₹
+            </div>
+
+            <div>
+
+                <span class="billing-eyebrow">
+                    FINANCE & BILLING
+                </span>
+
+                <h1>Hospital Billing</h1>
+
+                <p>
+                    Create patient bills, add medicines and manage payments
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="billing-header-actions">
+
+            <a
+                href="{% url 'billing:history' %}"
+                class="billing-secondary-btn"
+            >
+                <span>↶</span>
+                Billing History
+            </a>
+
+            <button
+                type="button"
+                class="billing-primary-btn"
+                onclick="window.print()"
+            >
+                <span>🖨</span>
+                Print
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="billing-message {{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <form
+        method="POST"
+        id="billingForm"
+        class="billing-form"
+    >
+
+        {% csrf_token %}
+
+
+        <div class="billing-layout">
+
+
+            <!-- =================================================
+                 LEFT COLUMN
+            ================================================= -->
+
+            <div class="billing-main-column">
+
+
+                <!-- =================================================
+                     BILL INFORMATION
+                ================================================= -->
+
+                <section class="billing-card billing-animate">
+
+                    <div class="billing-card-header">
+
+                        <div class="billing-card-title">
+
+                            <div class="card-icon bill-icon">
+                                #
+                            </div>
+
+                            <div>
+
+                                <h2>Bill Information</h2>
+
+                                <p>
+                                    Patient, doctor and appointment details
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="bill-status-badge">
+                            NEW BILL
+                        </span>
+
+                    </div>
+
+
+                    <div class="billing-card-body">
+
+                        <div class="billing-form-grid">
+
+
+                            <!-- BILL NUMBER -->
+
+                            <div class="billing-field">
+
+                                <label>
+                                    Bill Number
+                                </label>
+
+                                <div class="billing-input-wrapper">
+
+                                    <span class="input-prefix">
+                                        #
+                                    </span>
+
+                                    <input
+                                        type="text"
+                                        value="AUTO GENERATED"
+                                        readonly
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PATIENT -->
+
+                            <div class="billing-field">
+
+                                <label for="patient">
+
+                                    Patient
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <select
+                                    id="patient"
+                                    name="patient"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Patient
+                                    </option>
+
+                                    {% for patient in patients %}
+
+                                        <option
+                                            value="{{ patient.id }}"
+                                        >
+                                            {{ patient.patient_id }}
+                                            -
+                                            {{ patient.name }}
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <small id="patientHelp">
+                                    Select a patient to load appointments and previous bills
+                                </small>
+
+                            </div>
+
+
+                            <!-- DOCTOR -->
+
+                            <div class="billing-field">
+
+                                <label for="doctor">
+
+                                    Doctor
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <select
+                                    id="doctor"
+                                    name="doctor"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Doctor
+                                    </option>
+
+                                    {% for doctor in doctors %}
+
+                                        <option
+                                            value="{{ doctor.id }}"
+                                            data-fee="{{ doctor.consultation_fee }}"
+                                        >
+
+                                            Dr. {{ doctor.name }}
+                                            -
+                                            {{ doctor.specialization }}
+
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                                <small id="doctorHelp">
+                                    Select a doctor
+                                </small>
+
+                            </div>
+
+
+                            <!-- APPOINTMENT -->
+
+                            <div class="billing-field">
+
+                                <label for="appointment">
+                                    Appointment
+                                </label>
+
+                                <select
+                                    id="appointment"
+                                    name="appointment"
+                                >
+
+                                    <option value="">
+                                        Select Appointment
+                                    </option>
+
+                                </select>
+
+                                <small id="appointmentHelp">
+                                    Select a patient first
+                                </small>
+
+                            </div>
+
+
+                            <!-- PAYMENT DATE -->
+
+                            <div class="billing-field">
+
+                                <label for="payment_date">
+                                    Payment Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="payment_date"
+                                    name="payment_date"
+                                    value="{{ payment_date|date:'Y-m-d' }}"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PREVIOUS BILLING -->
+
+                        <div
+                            id="previousBilling"
+                            class="previous-billing"
+                            hidden
+                        >
+
+                            <div class="previous-billing-header">
+
+                                <div>
+
+                                    <h3>
+                                        Previous Billing
+                                    </h3>
+
+                                    <p>
+                                        Recent bills for this patient
+                                    </p>
+
+                                </div>
+
+                                <span id="previousBillCount">
+                                    0 bills
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                id="previousBillingList"
+                                class="previous-billing-list"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     CHARGES
+                ================================================== -->
+
+                <section class="billing-card billing-animate">
+
+                    <div class="billing-card-header">
+
+                        <div class="billing-card-title">
+
+                            <div class="card-icon charges-icon">
+                                ₹
+                            </div>
+
+                            <div>
+
+                                <h2>Billing Charges</h2>
+
+                                <p>
+                                    All charges are calculated automatically
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="charges-label">
+                            AUTO CALCULATED
+                        </span>
+
+                    </div>
+
+
+                    <div class="billing-card-body">
+
+
+                        <!-- BASIC CHARGES -->
+
+                        <div class="charges-grid">
+
+
+                            <!-- CONSULTATION -->
+
+                            <div class="charge-box consultation">
+
+                                <div class="charge-top">
+
+                                    <div class="charge-icon">
+                                        🩺
+                                    </div>
+
+                                    <span>
+                                        Consultation
+                                    </span>
+
+                                </div>
+
+                                <label>
+                                    Consultation Fee
+                                </label>
+
+                                <div class="amount-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="consultation_fee"
+                                        name="consultation_fee"
+                                        class="charge-input"
+                                        min="0"
+                                        step="0.01"
+                                        value="0.00"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MEDICINE -->
+
+                            <div class="charge-box medicine">
+
+                                <div class="charge-top">
+
+                                    <div class="charge-icon">
+                                        💊
+                                    </div>
+
+                                    <span>
+                                        Pharmacy
+                                    </span>
+
+                                </div>
+
+                                <label>
+                                    Medicine Charges
+                                </label>
+
+                                <div class="amount-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="medicine_charges"
+                                        name="medicine_charges"
+                                        class="charge-input"
+                                        value="0.00"
+                                        readonly
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LAB -->
+
+                            <div class="charge-box lab">
+
+                                <div class="charge-top">
+
+                                    <div class="charge-icon">
+                                        🧪
+                                    </div>
+
+                                    <span>
+                                        Diagnostics
+                                    </span>
+
+                                </div>
+
+                                <label>
+                                    Lab Charges
+                                </label>
+
+                                <div class="amount-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="lab_charges"
+                                        name="lab_charges"
+                                        class="charge-input"
+                                        min="0"
+                                        step="0.01"
+                                        value="0.00"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ROOM -->
+
+                            <div class="charge-box room">
+
+                                <div class="charge-top">
+
+                                    <div class="charge-icon">
+                                        🛏
+                                    </div>
+
+                                    <span>
+                                        Accommodation
+                                    </span>
+
+                                </div>
+
+                                <label>
+                                    Room Charges
+                                </label>
+
+                                <div class="amount-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="room_charges"
+                                        name="room_charges"
+                                        class="charge-input"
+                                        min="0"
+                                        step="0.01"
+                                        value="0.00"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             MEDICINE ITEMS
+                        ================================================== -->
+
+                        <div class="medicine-section">
+
+                            <div class="medicine-section-header">
+
+                                <div>
+
+                                    <h3>
+                                        💊 Pharmacy Medicines
+                                    </h3>
+
+                                    <p>
+                                        Select medicines from pharmacy inventory
+                                    </p>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    id="addMedicineBtn"
+                                    class="billing-secondary-btn"
+                                >
+                                    + Add Medicine
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                id="medicineRows"
+                                class="medicine-rows"
+                            ></div>
+
+
+                            <div
+                                id="medicineEmpty"
+                                class="medicine-empty"
+                            >
+
+                                No medicines added yet.
+
+                            </div>
+
+
+                            <div class="medicine-total">
+
+                                <span>
+                                    Pharmacy Total
+                                </span>
+
+                                <strong id="medicineItemsTotal">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CALCULATION -->
+
+                        <div class="calculation-strip">
+
+                            <div>
+
+                                Consultation
+
+                                <strong id="displayConsultation">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                            <span>+</span>
+
+                            <div>
+
+                                Medicine
+
+                                <strong id="displayMedicine">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                            <span>+</span>
+
+                            <div>
+
+                                Lab
+
+                                <strong id="displayLab">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                            <span>+</span>
+
+                            <div>
+
+                                Room
+
+                                <strong id="displayRoom">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                            <span>=</span>
+
+                            <div class="calculation-total">
+
+                                Total
+
+                                <strong id="displayTotal">
+                                    ₹0.00
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     PAYMENT
+                ================================================== -->
+
+                <section class="billing-card billing-animate">
+
+                    <div class="billing-card-header">
+
+                        <div class="billing-card-title">
+
+                            <div class="card-icon payment-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <h2>Payment Details</h2>
+
+                                <p>
+                                    Record payment status and method
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="billing-card-body">
+
+
+                        <!-- PAYMENT STATUS -->
+
+                        <div class="payment-options">
+
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_status"
+                                    value="Paid"
+                                    class="payment-radio"
+                                >
+
+                                <div class="payment-option-content">
+
+                                    <div class="payment-option-icon">
+                                        ✓
+                                    </div>
+
+                                    <div>
+
+                                        <strong>Paid</strong>
+
+                                        <small>
+                                            Full amount received
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_status"
+                                    value="Pending"
+                                    class="payment-radio"
+                                    checked
+                                >
+
+                                <div class="payment-option-content">
+
+                                    <div class="payment-option-icon">
+                                        ◷
+                                    </div>
+
+                                    <div>
+
+                                        <strong>Pending</strong>
+
+                                        <small>
+                                            No payment received
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_status"
+                                    value="Partial"
+                                    class="payment-radio"
+                                >
+
+                                <div class="payment-option-content">
+
+                                    <div class="payment-option-icon">
+                                        ◐
+                                    </div>
+
+                                    <div>
+
+                                        <strong>Partial</strong>
+
+                                        <small>
+                                            Part of amount received
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_status"
+                                    value="Cancelled"
+                                    class="payment-radio"
+                                    disabled
+                                >
+
+                                <div class="payment-option-content">
+
+                                    <div class="payment-option-icon">
+                                        ×
+                                    </div>
+
+                                    <div>
+
+                                        <strong>Cancelled</strong>
+
+                                        <small>
+                                            Cancel from bill details
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- PAYMENT METHOD -->
+
+                        <div class="billing-form-grid payment-grid">
+
+                            <div class="billing-field">
+
+                                <label for="payment_method">
+                                    Payment Method
+                                </label>
+
+                                <select
+                                    id="payment_method"
+                                    name="payment_method"
+                                >
+
+                                    <option value="">
+                                        Select Method
+                                    </option>
+
+                                    <option value="Cash">
+                                        Cash
+                                    </option>
+
+                                    <option value="Card">
+                                        Card
+                                    </option>
+
+                                    <option value="UPI">
+                                        UPI
+                                    </option>
+
+                                    <option value="Insurance">
+                                        Insurance
+                                    </option>
+
+                                    <option value="Other">
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="billing-field">
+
+                                <label for="amount_paid">
+                                    Amount Paid
+                                </label>
+
+                                <div class="amount-input">
+
+                                    <span>₹</span>
+
+                                    <input
+                                        type="number"
+                                        id="amount_paid"
+                                        name="amount_paid"
+                                        min="0"
+                                        step="0.01"
+                                        value="0.00"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- NOTES -->
+
+                        <div class="billing-field">
+
+                            <label for="notes">
+                                Notes
+                            </label>
+
+                            <textarea
+                                id="notes"
+                                name="notes"
+                                rows="3"
+                                placeholder="Additional billing notes..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div
+                            class="payment-status-message"
+                            id="paymentStatusMessage"
+                        >
+                            Payment is currently
+                            <strong>Pending</strong>.
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 RIGHT SUMMARY
+            ================================================== -->
+
+            <aside class="billing-summary-column">
+
+                <div class="billing-summary-card">
+
+
+                    <div class="summary-top">
+
+                        <div class="summary-icon">
+                            ₹
+                        </div>
+
+                        <div>
+
+                            <span>
+                                BILL SUMMARY
+                            </span>
+
+                            <h2>
+                                Payment Overview
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="patient-preview">
+
+                        <div class="patient-preview-avatar">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Patient
+                            </span>
+
+                            <strong id="summaryPatient">
+                                Not Selected
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Consultation
+                        </span>
+
+                        <strong id="summaryConsultation">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Pharmacy
+                        </span>
+
+                        <strong id="summaryMedicine">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Diagnostics
+                        </span>
+
+                        <strong id="summaryLab">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Room
+                        </span>
+
+                        <strong id="summaryRoom">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="summary-grand-total">
+
+                        <div>
+
+                            <span>
+                                Total Amount
+                            </span>
+
+                            <small>
+                                All charges included
+                            </small>
+
+                        </div>
+
+                        <strong id="summaryTotal">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Amount Paid
+                        </span>
+
+                        <strong id="summaryPaid">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Balance
+                        </span>
+
+                        <strong id="summaryBalance">
+                            ₹0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-payment-status">
+
+                        <span>
+                            Payment Status
+                        </span>
+
+                        <strong
+                            id="summaryPaymentStatus"
+                            class="status-pending"
+                        >
+                            Pending
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="generate-bill-btn"
+                        id="generateBillBtn"
+                    >
+
+                        <span class="generate-icon">
+                            ✓
+                        </span>
+
+                        Generate Bill
+
+                    </button>
+
+
+                    <p class="secure-note">
+
+                        🔒
+                        Billing information is securely stored.
+
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/billing.css' %}"
+>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script
+    src="{% static 'js/billing.js' %}"
+></script>
+
+{% endblock %}

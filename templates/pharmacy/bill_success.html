@@ -1,0 +1,763 @@
+{% extends "base.html" %}
+
+{% block pharmacy_active %}active{% endblock %}
+
+{% block title %}Bill Generated | CarePlus{% endblock %}
+
+{% block content %}
+
+<div class="pharmacy-page">
+
+    <div class="bill-success-card">
+
+        <!-- ================= SUCCESS ================= -->
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h1>Bill Generated Successfully</h1>
+
+        <p>
+            Medicine bill has been generated and pharmacy stock
+            has been updated successfully.
+        </p>
+
+
+        <!-- ================= INVOICE ================= -->
+
+        <div class="invoice-box">
+
+
+            <!-- ================= INVOICE HEADER ================= -->
+
+            <div class="invoice-header">
+
+                <div>
+                    <span>Bill Number</span>
+
+                    <strong>
+                        {{ bill.bill_number }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Patient</span>
+
+                    <strong>
+                        {{ patient.name }}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>Date</span>
+
+                    <strong>
+                        {{ bill_date|date:"d M Y" }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- ================= PATIENT INFORMATION ================= -->
+
+            <div class="patient-bill-info">
+
+                <div>
+
+                    <span>Patient ID</span>
+
+                    <strong>
+
+                        {% if patient.patient_id %}
+
+                            {{ patient.patient_id }}
+
+                        {% else %}
+
+                            PAT-{{ patient.id }}
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                {% if patient.phone %}
+
+                <div>
+
+                    <span>Phone</span>
+
+                    <strong>
+                        {{ patient.phone }}
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if patient.email %}
+
+                <div>
+
+                    <span>Email</span>
+
+                    <strong>
+                        {{ patient.email }}
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= MEDICINE TABLE ================= -->
+
+            <table class="invoice-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Medicine</th>
+
+                        <th>Qty</th>
+
+                        <th>Price</th>
+
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in bill_items %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ item.medicine.medicine_name }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+                            {{ item.quantity }}
+                        </td>
+
+
+                        <td>
+                            ₹{{ item.price }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ₹{{ item.total }}
+                            </strong>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            <!-- ================= TOTAL ================= -->
+
+            <div class="invoice-total">
+
+                <span>
+                    Grand Total
+                </span>
+
+                <strong>
+                    ₹{{ total }}
+                </strong>
+
+            </div>
+
+
+            <!-- ================= BILL FOOTER ================= -->
+
+            <div class="invoice-footer">
+
+                <span>
+                    CarePlus Hospital
+                </span>
+
+                <span>
+                    Thank you for choosing CarePlus
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <div class="bill-success-actions">
+
+            <button
+                type="button"
+                onclick="window.print()"
+                class="print-btn">
+
+                🖨 Print Bill
+
+            </button>
+
+
+            <a
+                href="{% url 'medicine_billing' %}"
+                class="btn btn-primary">
+
+                + New Bill
+
+            </a>
+
+
+            <a
+                href="{% url 'medicine_list' %}"
+                class="back-btn">
+
+                ← Pharmacy
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+{% load static %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pharmacy.css' %}"
+>
+
+<style>
+
+/* =========================================================
+   BILL SUCCESS PAGE
+========================================================= */
+
+.bill-success-card {
+    max-width: 1050px;
+
+    margin: 40px auto;
+
+    padding: 40px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7edf4;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.08);
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+========================================================= */
+
+.success-icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #10b981,
+            #059669
+        );
+
+    border-radius: 50%;
+
+    font-size: 32px;
+    font-weight: 800;
+
+    box-shadow:
+        0 12px 30px rgba(16, 185, 129, 0.25);
+}
+
+
+.bill-success-card h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 28px;
+    font-weight: 800;
+}
+
+
+.bill-success-card > p {
+    margin: 9px 0 30px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   INVOICE
+========================================================= */
+
+.invoice-box {
+    overflow: hidden;
+
+    text-align: left;
+
+    background: #ffffff;
+
+    border: 1px solid #e5eaf0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================================
+   INVOICE HEADER
+========================================================= */
+
+.invoice-header {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #f1f7ff
+        );
+
+    border-bottom: 1px solid #e5eaf0;
+}
+
+
+.invoice-header span,
+.patient-bill-info span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+.invoice-header strong,
+.patient-bill-info strong {
+    display: block;
+
+    color: #1e293b;
+
+    font-size: 13px;
+}
+
+
+/* Bill number */
+
+.invoice-header > div:first-child strong {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   PATIENT DETAILS
+========================================================= */
+
+.patient-bill-info {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 45px;
+
+    padding: 20px 25px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.invoice-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+.invoice-table th {
+    padding: 14px 20px;
+
+    color: #64748b;
+
+    background: #f8fafc;
+
+    border-bottom: 1px solid #e5eaf0;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+
+    text-align: left;
+}
+
+
+.invoice-table td {
+    padding: 16px 20px;
+
+    color: #475569;
+
+    border-bottom: 1px solid #edf1f5;
+
+    font-size: 12px;
+}
+
+
+.invoice-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.invoice-table tbody tr:hover td {
+    background: #f8fbff;
+}
+
+
+.invoice-table td strong {
+    color: #1e293b;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.invoice-total {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 30px;
+
+    padding: 22px 25px;
+
+    background: #f8fafc;
+
+    border-top: 1px solid #e5eaf0;
+}
+
+
+.invoice-total span {
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.invoice-total strong {
+    color: #2563eb;
+
+    font-size: 24px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   INVOICE FOOTER
+========================================================= */
+
+.invoice-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 15px 25px;
+
+    color: #94a3b8;
+
+    background: #ffffff;
+
+    border-top: 1px solid #edf1f5;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.bill-success-actions {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.print-btn,
+.bill-success-actions .btn,
+.bill-success-actions .back-btn {
+    min-height: 43px;
+
+    padding: 0 18px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.print-btn {
+    color: #334155;
+
+    background: #f8fafc;
+
+    border: 1px solid #dfe5ed;
+}
+
+
+.print-btn:hover {
+    transform: translateY(-2px);
+
+    background: #f1f5f9;
+}
+
+
+.bill-success-actions .btn-primary {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    border: none;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+
+.bill-success-actions .btn-primary:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(37, 99, 235, 0.28);
+}
+
+
+.bill-success-actions .back-btn {
+    color: #475569;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe5ed;
+}
+
+
+.bill-success-actions .back-btn:hover {
+    transform: translateY(-2px);
+
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .bill-success-card {
+        max-width: none;
+
+        margin: 0;
+
+        padding: 0;
+
+        border: none;
+
+        box-shadow: none;
+    }
+
+    .success-icon,
+    .bill-success-card > h1,
+    .bill-success-card > p,
+    .bill-success-actions {
+        display: none !important;
+    }
+
+    .invoice-box {
+        border: 1px solid #ddd;
+
+        box-shadow: none;
+
+        border-radius: 0;
+    }
+
+    .invoice-table tbody tr:hover td {
+        background: transparent;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .bill-success-card {
+        margin: 20px 10px;
+
+        padding: 20px;
+
+        border-radius: 18px;
+    }
+
+    .invoice-header {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .patient-bill-info {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .invoice-box {
+        overflow-x: auto;
+    }
+
+    .invoice-table {
+        min-width: 600px;
+    }
+
+    .invoice-total {
+        justify-content: space-between;
+    }
+
+    .bill-success-actions {
+        flex-direction: column;
+    }
+
+    .print-btn,
+    .bill-success-actions .btn,
+    .bill-success-actions .back-btn {
+        width: 100%;
+    }
+
+    .invoice-footer {
+        flex-direction: column;
+
+        gap: 7px;
+    }
+
+}
+
+</style>
+
+{% endblock %}

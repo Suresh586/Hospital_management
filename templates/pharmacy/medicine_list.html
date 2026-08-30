@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block pharmacy_active %}active{% endblock %}
+
+{% block title %}Pharmacy | CarePlus{% endblock %}
+
+{% block content %}
+
+<div class="pharmacy-page">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="page-header">
+
+        <div>
+            <h1>Pharmacy</h1>
+            <p>Manage medicines, stock and expiry details</p>
+        </div>
+
+        <div class="header-actions">
+
+            <a href="{% url 'medicine_billing' %}"
+               class="btn btn-billing">
+                <span>🧾</span>
+                Medicine Billing
+            </a>
+
+            <a href="{% url 'medicine_add' %}"
+               class="btn btn-primary">
+                <span>+</span>
+                Add Medicine
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ALERTS ================= -->
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message message-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- ================= SUMMARY CARDS ================= -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+            <div class="summary-icon medicines-icon">
+                💊
+            </div>
+
+            <div>
+                <span>Total Medicines</span>
+                <strong>{{ total_medicines }}</strong>
+            </div>
+        </div>
+
+
+        <div class="summary-card low-card">
+
+            <div class="summary-icon low-icon">
+                ⚠
+            </div>
+
+            <div>
+                <span>Low Stock</span>
+                <strong>{{ low_stock_count }}</strong>
+            </div>
+
+        </div>
+
+
+        <div class="summary-card out-card">
+
+            <div class="summary-icon out-icon">
+                !
+            </div>
+
+            <div>
+                <span>Out of Stock</span>
+                <strong>{{ out_of_stock_count }}</strong>
+            </div>
+
+        </div>
+
+
+        <div class="summary-card expired-card">
+
+            <div class="summary-icon expired-icon">
+                ⏱
+            </div>
+
+            <div>
+                <span>Expired</span>
+                <strong>{{ expired_count }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SEARCH / FILTER ================= -->
+
+    <div class="filter-card">
+
+        <form method="GET"
+              action="{% url 'medicine_list' %}"
+              class="filter-form">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search }}"
+                    placeholder="Search medicine, category or manufacturer..."
+                >
+
+            </div>
+
+
+            <select name="category">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                {% for item in categories %}
+
+                    <option value="{{ item }}"
+                        {% if selected_category == item %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ item }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select name="stock">
+
+                <option value="">
+                    All Stock
+                </option>
+
+                <option value="available"
+                    {% if selected_stock == "available" %}
+                        selected
+                    {% endif %}
+                >
+                    Available
+                </option>
+
+                <option value="low"
+                    {% if selected_stock == "low" %}
+                        selected
+                    {% endif %}
+                >
+                    Low Stock
+                </option>
+
+                <option value="out"
+                    {% if selected_stock == "out" %}
+                        selected
+                    {% endif %}
+                >
+                    Out of Stock
+                </option>
+
+            </select>
+
+
+            <select name="expiry">
+
+                <option value="">
+                    All Expiry
+                </option>
+
+                <option value="expired"
+                    {% if selected_expiry == "expired" %}
+                        selected
+                    {% endif %}
+                >
+                    Expired
+                </option>
+
+                <option value="expiring"
+                    {% if selected_expiry == "expiring" %}
+                        selected
+                    {% endif %}
+                >
+                    Expiring in 30 Days
+                </option>
+
+            </select>
+
+
+            <button type="submit"
+                    class="filter-btn">
+                Search
+            </button>
+
+
+            <a href="{% url 'medicine_list' %}"
+               class="clear-btn">
+                Clear
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= MEDICINE TABLE ================= -->
+
+    <div class="medicine-card">
+
+        <div class="table-header">
+
+            <div>
+                <h2>Medicine Inventory</h2>
+                <p>
+                    Manage all medicines available in pharmacy
+                </p>
+            </div>
+
+            <span class="medicine-count">
+                {{ medicines|length }} Medicines
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table class="medicine-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Medicine ID</th>
+                        <th>Medicine</th>
+                        <th>Category</th>
+                        <th>Manufacturer</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for medicine in medicines %}
+
+                    <tr class="medicine-row"
+                        data-quantity="{{ medicine.quantity }}">
+
+                        <td>
+
+                            <span class="medicine-id">
+                                MED-{{ medicine.id|stringformat:"04d" }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="medicine-name">
+
+                                <div class="medicine-avatar">
+                                    💊
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        {{ medicine.medicine_name }}
+                                    </strong>
+
+                                    <small>
+                                        ID #{{ medicine.id }}
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="category-badge">
+                                {{ medicine.category }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ medicine.manufacturer }}
+                        </td>
+
+
+                        <td>
+
+                            <strong class="price">
+                                ₹{{ medicine.price }}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="quantity-wrapper">
+
+                                <strong class="quantity-value">
+                                    {{ medicine.quantity }}
+                                </strong>
+
+                                {% if medicine.quantity == 0 %}
+
+                                    <span class="stock-badge out">
+                                        Out of Stock
+                                    </span>
+
+                                {% elif medicine.quantity < 10 %}
+
+                                    <span class="stock-badge low">
+                                        Low Stock
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="stock-badge available">
+                                        Available
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="expiry-date">
+                                {{ medicine.expiry_date|date:"d M Y" }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% now "Y-m-d" as today %}
+
+                            {% if medicine.expiry_date|date:"Y-m-d" < today %}
+
+                                <span class="expiry-badge expired">
+                                    Expired
+                                </span>
+
+                            {% else %}
+
+                                <span class="expiry-badge valid">
+                                    Valid
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <a href="{% url 'medicine_update' medicine.id %}"
+                                   class="action-btn edit"
+                                   title="Edit">
+                                    ✎
+                                </a>
+
+
+                                <a href="{% url 'medicine_delete' medicine.id %}"
+                                   class="action-btn delete"
+                                   title="Delete">
+                                    🗑
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="9">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    💊
+                                </div>
+
+                                <h3>No medicines found</h3>
+
+                                <p>
+                                    Try changing your search or add a new medicine.
+                                </p>
+
+                                <a href="{% url 'medicine_add' %}"
+                                   class="btn btn-primary">
+                                    Add Medicine
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+{% load static %}
+
+<link rel="stylesheet"
+      href="{% static 'css/pharmacy.css' %}">
+{% endblock %}
+
+
+{% block extra_js %}
+{% load static %}
+
+<script src="{% static 'js/pharmacy.js' %}"></script>
+
+{% endblock %}

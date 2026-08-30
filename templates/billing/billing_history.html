@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block billing_active %}active{% endblock %}
+
+{% block title %}
+Billing History | CarePlus
+{% endblock %}
+
+
+{% block content %}
+
+<div class="billing-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="billing-page-header">
+
+        <div class="billing-heading">
+
+            <div class="billing-heading-icon">
+                ₹
+            </div>
+
+            <div>
+
+                <span class="billing-eyebrow">
+                    FINANCE & BILLING
+                </span>
+
+                <h1>
+                    Billing History
+                </h1>
+
+                <p>
+                    View and manage all patient billing records
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="billing-header-actions">
+
+            <a
+                href="{% url 'billing:create' %}"
+                class="billing-primary-btn"
+            >
+                + Create New Bill
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="billing-message {{ message.tags }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="billing-history-stats">
+
+        <div class="history-stat-card">
+
+            <span class="history-stat-icon">
+                #
+            </span>
+
+            <div>
+
+                <small>
+                    Total Bills
+                </small>
+
+                <strong>
+                    {{ bills|length }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="history-stat-card">
+
+            <span class="history-stat-icon">
+                ₹
+            </span>
+
+            <div>
+
+                <small>
+                    Total Billing
+                </small>
+
+                <strong>
+
+                    ₹{{ total_billing|default:"0.00"|floatformat:2 }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="history-stat-card">
+
+            <span class="history-stat-icon">
+                ✓
+            </span>
+
+            <div>
+
+                <small>
+                    Paid
+                </small>
+
+                <strong>
+
+                    ₹{{ total_paid|default:"0.00"|floatformat:2 }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="history-stat-card">
+
+            <span class="history-stat-icon">
+                ◷
+            </span>
+
+            <div>
+
+                <small>
+                    Outstanding
+                </small>
+
+                <strong>
+
+                    ₹{{ total_balance|default:"0.00"|floatformat:2 }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BILLING TABLE
+    ====================================================== -->
+
+    <section class="billing-card billing-animate">
+
+
+        <div class="billing-card-header">
+
+            <div class="billing-card-title">
+
+                <div class="card-icon bill-icon">
+                    #
+                </div>
+
+                <div>
+
+                    <h2>
+                        All Bills
+                    </h2>
+
+                    <p>
+                        Complete billing records from the hospital
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span class="bill-status-badge">
+                {{ bills|length }} RECORDS
+            </span>
+
+        </div>
+
+
+        <div class="billing-card-body">
+
+
+            {% if bills %}
+
+
+                <div class="billing-history-table-wrapper">
+
+                    <table class="billing-history-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Bill Number
+                                </th>
+
+                                <th>
+                                    Patient
+                                </th>
+
+                                <th>
+                                    Doctor
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Total
+                                </th>
+
+                                <th>
+                                    Paid
+                                </th>
+
+                                <th>
+                                    Balance
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for bill in bills %}
+
+                            <tr>
+
+
+                                <!-- BILL NUMBER -->
+
+                                <td>
+
+                                    <strong class="bill-number">
+
+                                        {{ bill.bill_number }}
+
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- PATIENT -->
+
+                                <td>
+
+                                    <div class="history-patient">
+
+                                        <div class="history-patient-avatar">
+                                            👤
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                {{ bill.patient.name }}
+                                            </strong>
+
+                                            <small>
+                                                {{ bill.patient.patient_id }}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- DOCTOR -->
+
+                                <td>
+
+                                    <div class="history-doctor">
+
+                                        <strong>
+                                            Dr. {{ bill.doctor.name }}
+                                        </strong>
+
+                                        <small>
+                                            {{ bill.doctor.specialization }}
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    <div class="history-date">
+
+                                        <strong>
+
+                                            {{ bill.created_at|date:"d M Y" }}
+
+                                        </strong>
+
+                                        <small>
+
+                                            {{ bill.created_at|date:"h:i A" }}
+
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- TOTAL -->
+
+                                <td>
+
+                                    <strong class="history-total">
+
+                                        ₹{{ bill.total_amount|floatformat:2 }}
+
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- PAID -->
+
+                                <td>
+
+                                    <span class="history-paid">
+
+                                        ₹{{ bill.amount_paid|floatformat:2 }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- BALANCE -->
+
+                                <td>
+
+                                    <span class="history-balance">
+
+                                        ₹{{ bill.balance_amount|floatformat:2 }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if bill.payment_status == "Paid" %}
+
+                                        <span class="billing-status status-paid">
+                                            Paid
+                                        </span>
+
+                                    {% elif bill.payment_status == "Partial" %}
+
+                                        <span class="billing-status status-partial">
+                                            Partial
+                                        </span>
+
+                                    {% elif bill.payment_status == "Cancelled" %}
+
+                                        <span class="billing-status status-cancelled">
+                                            Cancelled
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="billing-status status-pending">
+                                            Pending
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'billing:detail' bill.id %}"
+                                        class="history-view-btn"
+                                    >
+                                        View
+                                    </a>
+
+                                </td>
+
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- =================================================
+                     EMPTY STATE
+                ================================================== -->
+
+                <div class="billing-empty-state">
+
+                    <div class="billing-empty-icon">
+                        ₹
+                    </div>
+
+                    <h3>
+                        No Billing Records
+                    </h3>
+
+                    <p>
+                        No patient bills have been created yet.
+                    </p>
+
+                    <a
+                        href="{% url 'billing:create' %}"
+                        class="billing-primary-btn"
+                    >
+                        + Create First Bill
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/billing.css' %}"
+>
+
+{% endblock %}

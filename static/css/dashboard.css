@@ -1041,3 +1041,6 @@ a {
         display: none;
     }
 }
+.logout-nav {
+    margin-top: 4px;
+}
