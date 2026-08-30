@@ -1,558 +1,719 @@
-{% extends 'base.html' %}
-{% block patients_active %}active{% endblock %}
+{% extends "base.html" %}
+
 {% load static %}
 
 {% block title %}
- CarePlus | Patients 
+CarePlus | Patients
 {% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/patients.css' %}">
+
+{% block patients_active %}
+active
 {% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/patients.css' %}"
+>
+
+{% endblock %}
+
+
 
 {% block content %}
 
-<!-- ================= PATIENT PAGE ================= -->
+<div class="patients-page">
 
-<section class="content">
 
-    <!-- STATISTICS -->
-    <div class="stats-grid">
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
 
-        <div class="stat-card">
-            <div class="stat-icon blue">
-                <i class="fa-solid fa-hospital-user"></i>
+    <div class="patients-header">
+
+        <div class="patients-heading">
+
+            <div class="patients-heading-icon">
+
+                <i class="fa-solid fa-users"></i>
+
             </div>
 
             <div>
-                <span>Total Patients</span>
-                <h2>1,248</h2>
-                <small class="positive">
-                    <i class="fa-solid fa-arrow-up"></i>
-                    8.4% this month
-                </small>
+
+                <span class="patients-eyebrow">
+                    PATIENT MANAGEMENT
+                </span>
+
+                <h1>
+                    Patients
+                </h1>
+
+                <p>
+                    Manage patient records, information and visits
+                </p>
+
             </div>
+
         </div>
 
 
-        <div class="stat-card">
-            <div class="stat-icon green">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
+        <a
+            href="{% url 'add_patient' %}"
+            class="register-patient-btn"
+        >
 
-            <div>
-                <span>New Patients</span>
-                <h2>86</h2>
-                <small class="positive">
-                    <i class="fa-solid fa-arrow-up"></i>
-                    12.5% this month
-                </small>
-            </div>
-        </div>
+            <i class="fa-solid fa-user-plus"></i>
 
-
-        <div class="stat-card">
-            <div class="stat-icon purple">
-                <i class="fa-solid fa-calendar-day"></i>
-            </div>
-
-            <div>
-                <span>Today's Visits</span>
-                <h2>42</h2>
-                <small>Scheduled today</small>
-            </div>
-        </div>
-
-
-        <div class="stat-card">
-            <div class="stat-icon orange">
-                <i class="fa-solid fa-user-clock"></i>
-            </div>
-
-            <div>
-                <span>Active Patients</span>
-                <h2>318</h2>
-                <small>Currently under care</small>
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- PATIENT MANAGEMENT HEADER -->
-
-    <div class="section-header">
-
-        <div>
-            <h2>Patient Records</h2>
-            <p>View and manage registered patients</p>
-        </div>
-
-        <button class="primary-btn">
-            <i class="fa-solid fa-plus"></i>
             Register Patient
-        </button>
+
+        </a>
 
     </div>
 
 
-    <!-- SEARCH + FILTER -->
 
-    <div class="filter-card">
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
 
-        <div class="search-box">
+    <div class="patient-statistics">
+
+
+        <!-- TOTAL PATIENTS -->
+
+        <div class="patient-stat-card">
+
+            <div class="stat-icon blue">
+
+                <i class="fa-solid fa-users"></i>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span>
+                    TOTAL PATIENTS
+                </span>
+
+                <h2>
+                    {{ total_patients }}
+                </h2>
+
+                <small>
+                    All registered patients
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NEW PATIENTS -->
+
+        <div class="patient-stat-card">
+
+            <div class="stat-icon green">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span>
+                    NEW PATIENTS
+                </span>
+
+                <h2>
+                    {{ new_patients }}
+                </h2>
+
+                <small>
+                    Registered this month
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TODAY'S VISITS -->
+
+        <div class="patient-stat-card">
+
+            <div class="stat-icon purple">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span>
+                    TODAY'S VISITS
+                </span>
+
+                <h2>
+                    {{ todays_visits }}
+                </h2>
+
+                <small>
+                    Scheduled for today
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACTIVE PATIENTS -->
+
+        <div class="patient-stat-card">
+
+            <div class="stat-icon orange">
+
+                <i class="fa-solid fa-heart-pulse"></i>
+
+            </div>
+
+            <div class="stat-content">
+
+                <span>
+                    ACTIVE PATIENTS
+                </span>
+
+                <h2>
+                    {{ active_patients }}
+                </h2>
+
+                <small>
+                    Currently active
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SEARCH / FILTER
+    ====================================================== -->
+
+    <form
+        method="GET"
+        class="patient-filter-card"
+    >
+
+
+        <!-- SEARCH -->
+
+        <div class="patient-search-box">
 
             <i class="fa-solid fa-magnifying-glass"></i>
 
             <input
                 type="text"
+                name="search"
+                value="{{ search }}"
                 placeholder="Search by patient name, ID, phone or email..."
             >
 
         </div>
 
-        <select>
-            <option>All Patients</option>
-            <option>Active</option>
-            <option>Inactive</option>
+
+
+        <!-- STATUS -->
+
+        <select
+            name="status"
+            class="patient-filter-select"
+        >
+
+            <option value="">
+                All Patients
+            </option>
+
+            <option
+                value="Active"
+                {% if selected_status == "Active" %}
+                    selected
+                {% endif %}
+            >
+                Active
+            </option>
+
+            <option
+                value="Inactive"
+                {% if selected_status == "Inactive" %}
+                    selected
+                {% endif %}
+            >
+                Inactive
+            </option>
+
         </select>
 
-        <select>
-            <option>All Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
+
+
+        <!-- GENDER -->
+
+        <select
+            name="gender"
+            class="patient-filter-select"
+        >
+
+            <option value="">
+                All Gender
+            </option>
+
+            <option
+                value="Male"
+                {% if selected_gender == "Male" %}
+                    selected
+                {% endif %}
+            >
+                Male
+            </option>
+
+            <option
+                value="Female"
+                {% if selected_gender == "Female" %}
+                    selected
+                {% endif %}
+            >
+                Female
+            </option>
+
+            <option
+                value="Other"
+                {% if selected_gender == "Other" %}
+                    selected
+                {% endif %}
+            >
+                Other
+            </option>
+
         </select>
 
-        <button class="filter-btn">
+
+
+        <!-- FILTER BUTTON -->
+
+        <button
+            type="submit"
+            class="patient-filter-btn"
+        >
+
             <i class="fa-solid fa-filter"></i>
+
             Filter
+
         </button>
 
-    </div>
 
 
-    <!-- PATIENT TABLE -->
+        <!-- CLEAR -->
 
-    <div class="table-card">
+        {% if search or selected_status or selected_gender %}
 
-        <div class="table-header">
+        <a
+            href="{% url 'patients' %}"
+            class="clear-filter-btn"
+            title="Clear filters"
+        >
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </a>
+
+        {% endif %}
+
+    </form>
+
+
+
+    <!-- =====================================================
+         PATIENT TABLE CARD
+    ====================================================== -->
+
+    <div class="patients-table-card">
+
+
+        <!-- TABLE HEADER -->
+
+        <div class="patients-table-header">
 
             <div>
-                <h3>All Patients</h3>
-                <span>Showing 6 of 1,248 patients</span>
+
+                <h2>
+                    Patient Records
+                </h2>
+
+                <p>
+                    View and manage registered patients
+                </p>
+
             </div>
 
-            <button class="export-btn">
-                <i class="fa-solid fa-download"></i>
-                Export
-            </button>
+
+            <div class="patient-record-count">
+
+                <i class="fa-solid fa-database"></i>
+
+                {{ page_obj.paginator.count }}
+                Records
+
+            </div>
 
         </div>
 
 
-        <div class="table-wrapper">
 
-            <table>
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="patients-table-wrapper">
+
+            <table class="patients-table">
 
                 <thead>
+
                     <tr>
-                        <th>Patient</th>
-                        <th>Patient ID</th>
-                        <th>Gender</th>
-                        <th>Age</th>
-                        <th>Blood Group</th>
-                        <th>Phone</th>
-                        <th>Status</th>
-                        <th>Action</th>
+
+                        <th>
+                            PATIENT
+                        </th>
+
+                        <th>
+                            PATIENT ID
+                        </th>
+
+                        <th>
+                            GENDER
+                        </th>
+
+                        <th>
+                            AGE
+                        </th>
+
+                        <th>
+                            BLOOD GROUP
+                        </th>
+
+                        <th>
+                            PHONE
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            ACTIONS
+                        </th>
+
                     </tr>
+
                 </thead>
 
 
                 <tbody>
 
-                    <!-- PATIENT 1 -->
 
-                    <tr>
+                {% for patient in patients %}
+
+                    <tr class="patient-row">
+
+
+                        <!-- =================================
+                             PATIENT
+                        ================================== -->
 
                         <td>
+
                             <div class="patient-info">
 
-                                <div class="patient-avatar avatar-blue">
-                                    RK
+                                <div class="patient-avatar">
+
+                                    {{ patient.name|first|upper }}
+
                                 </div>
 
-                                <div>
-                                    <strong>Rahul Kumar</strong>
-                                    <span>rahul@gmail.com</span>
+
+                                <div class="patient-name-block">
+
+                                    <strong>
+                                        {{ patient.name }}
+                                    </strong>
+
+                                    <span>
+
+                                        {% if patient.email %}
+
+                                            {{ patient.email }}
+
+                                        {% else %}
+
+                                            No email provided
+
+                                        {% endif %}
+
+                                    </span>
+
                                 </div>
 
                             </div>
+
                         </td>
 
+
+
+                        <!-- =================================
+                             PATIENT ID
+                        ================================== -->
+
                         <td>
-                            <span class="patient-id">
-                                PT-10001
+
+                            <span class="patient-id-badge">
+
+                                {{ patient.patient_id }}
+
                             </span>
+
                         </td>
 
-                        <td>Male</td>
 
-                        <td>32</td>
+
+                        <!-- =================================
+                             GENDER
+                        ================================== -->
 
                         <td>
-                            <span class="blood-group">
-                                O+
+
+                            <span class="gender-text">
+
+                                {{ patient.gender }}
+
                             </span>
+
                         </td>
 
-                        <td>+91 98765 43210</td>
+
+
+                        <!-- =================================
+                             AGE
+                        ================================== -->
 
                         <td>
-                            <span class="status active-status">
-                                Active
+
+                            <span class="age-text">
+
+                                {{ patient.age }}
+
                             </span>
+
+                            <small>
+                                years
+                            </small>
+
                         </td>
 
+
+
+                        <!-- =================================
+                             BLOOD GROUP
+                        ================================== -->
+
                         <td>
-                            <div class="actions">
 
-                                <button title="View">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
+                            <span class="blood-group-badge">
 
-                                <button title="Edit">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
+                                {{ patient.blood_group }}
 
-                                <button title="More">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
+                            </span>
 
-                            </div>
+                        </td>
+
+
+
+                        <!-- =================================
+                             PHONE
+                        ================================== -->
+
+                        <td>
+
+                            <span class="phone-text">
+
+                                {{ patient.phone }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================
+                             STATUS
+                        ================================== -->
+
+                        <td>
+
+                            {% if patient.status == "Active" %}
+
+                                <span class="patient-status active">
+
+                                    <span class="status-dot"></span>
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="patient-status inactive">
+
+                                    <span class="status-dot"></span>
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <!-- =================================
+                             ACTIONS
+                        ================================== -->
+
+                        <td>
+
+                        <div class="patient-actions">
+
+                            <!-- VIEW -->
+                            <a
+                                href="{% url 'patient_detail' patient.patient_id %}"
+                                class="patient-action view"
+                                title="View Patient"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+
+
+                            <!-- EDIT -->
+                            <a
+                                href="#"
+                                class="patient-action edit"
+                                title="Edit Patient"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+
+
+                            <!-- DELETE -->
+                            <a
+                                href="{% url 'delete_patient' patient.patient_id %}"
+                                class="patient-action delete"
+                                title="Delete Patient"
+                            >
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+
+                        </div>
+
                         </td>
 
                     </tr>
 
 
-                    <!-- PATIENT 2 -->
+                {% empty %}
+
+
+                    <!-- =====================================
+                         EMPTY STATE
+                    ====================================== -->
 
                     <tr>
 
-                        <td>
-                            <div class="patient-info">
+                        <td
+                            colspan="8"
+                            class="patient-empty-cell"
+                        >
 
-                                <div class="patient-avatar avatar-purple">
-                                    PS
+                            <div class="patient-empty-state">
+
+                                <div class="empty-icon">
+
+                                    <i class="fa-solid fa-user-slash"></i>
+
                                 </div>
 
-                                <div>
-                                    <strong>Priya Sharma</strong>
-                                    <span>priya@gmail.com</span>
-                                </div>
+                                <h3>
+                                    No Patients Found
+                                </h3>
+
+                                <p>
+
+                                    {% if search or selected_status or selected_gender %}
+
+                                        No patients match your current search or filters.
+
+                                    {% else %}
+
+                                        No patients have been registered yet.
+
+                                    {% endif %}
+
+                                </p>
+
+
+                                {% if search or selected_status or selected_gender %}
+
+                                    <a
+                                        href="{% url 'patients' %}"
+                                        class="empty-clear-btn"
+                                    >
+
+                                        Clear Filters
+
+                                    </a>
+
+                                {% else %}
+
+                                    <a
+                                        href="{% url 'add_patient' %}"
+                                        class="empty-register-btn"
+                                    >
+
+                                        <i class="fa-solid fa-user-plus"></i>
+
+                                        Register First Patient
+
+                                    </a>
+
+                                {% endif %}
 
                             </div>
-                        </td>
 
-                        <td>
-                            <span class="patient-id">
-                                PT-10002
-                            </span>
-                        </td>
-
-                        <td>Female</td>
-
-                        <td>27</td>
-
-                        <td>
-                            <span class="blood-group">
-                                A+
-                            </span>
-                        </td>
-
-                        <td>+91 91234 56789</td>
-
-                        <td>
-                            <span class="status active-status">
-                                Active
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="actions">
-
-                                <button>
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-
-                            </div>
                         </td>
 
                     </tr>
 
 
-                    <!-- PATIENT 3 -->
-
-                    <tr>
-
-                        <td>
-                            <div class="patient-info">
-
-                                <div class="patient-avatar avatar-green">
-                                    AM
-                                </div>
-
-                                <div>
-                                    <strong>Arun Mehta</strong>
-                                    <span>arun@gmail.com</span>
-                                </div>
-
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="patient-id">
-                                PT-10003
-                            </span>
-                        </td>
-
-                        <td>Male</td>
-
-                        <td>45</td>
-
-                        <td>
-                            <span class="blood-group">
-                                B+
-                            </span>
-                        </td>
-
-                        <td>+91 99887 66554</td>
-
-                        <td>
-                            <span class="status active-status">
-                                Active
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="actions">
-
-                                <button>
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    <!-- PATIENT 4 -->
-
-                    <tr>
-
-                        <td>
-                            <div class="patient-info">
-
-                                <div class="patient-avatar avatar-orange">
-                                    SN
-                                </div>
-
-                                <div>
-                                    <strong>Sneha Nair</strong>
-                                    <span>sneha@gmail.com</span>
-                                </div>
-
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="patient-id">
-                                PT-10004
-                            </span>
-                        </td>
-
-                        <td>Female</td>
-
-                        <td>36</td>
-
-                        <td>
-                            <span class="blood-group">
-                                AB+
-                            </span>
-                        </td>
-
-                        <td>+91 93456 78901</td>
-
-                        <td>
-                            <span class="status inactive-status">
-                                Inactive
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="actions">
-
-                                <button>
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    <!-- PATIENT 5 -->
-
-                    <tr>
-
-                        <td>
-                            <div class="patient-info">
-
-                                <div class="patient-avatar avatar-red">
-                                    VK
-                                </div>
-
-                                <div>
-                                    <strong>Vikram Kumar</strong>
-                                    <span>vikram@gmail.com</span>
-                                </div>
-
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="patient-id">
-                                PT-10005
-                            </span>
-                        </td>
-
-                        <td>Male</td>
-
-                        <td>51</td>
-
-                        <td>
-                            <span class="blood-group">
-                                O-
-                            </span>
-                        </td>
-
-                        <td>+91 98712 34567</td>
-
-                        <td>
-                            <span class="status active-status">
-                                Active
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="actions">
-
-                                <button>
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    <!-- PATIENT 6 -->
-
-                    <tr>
-
-                        <td>
-                            <div class="patient-info">
-
-                                <div class="patient-avatar avatar-pink">
-                                    AD
-                                </div>
-
-                                <div>
-                                    <strong>Anjali Deshmukh</strong>
-                                    <span>anjali@gmail.com</span>
-                                </div>
-
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="patient-id">
-                                PT-10006
-                            </span>
-                        </td>
-
-                        <td>Female</td>
-
-                        <td>29</td>
-
-                        <td>
-                            <span class="blood-group">
-                                B-
-                            </span>
-                        </td>
-
-                        <td>+91 90123 45678</td>
-
-                        <td>
-                            <span class="status active-status">
-                                Active
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="actions">
-
-                                <button>
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
+                {% endfor %}
 
                 </tbody>
 
@@ -561,40 +722,190 @@
         </div>
 
 
-        <!-- PAGINATION -->
 
-        <div class="pagination">
+        <!-- =================================================
+             PAGINATION
+        ================================================== -->
 
-            <span>
-                Showing 1–6 of 1,248 patients
-            </span>
+        {% if page_obj.paginator.count > 0 %}
+
+        <div class="patients-pagination">
+
+
+            <!-- PAGINATION INFO -->
+
+            <div class="pagination-info">
+
+                Showing
+
+                <strong>
+                    {{ page_obj.start_index }}
+                </strong>
+
+                –
+
+                <strong>
+                    {{ page_obj.end_index }}
+                </strong>
+
+                of
+
+                <strong>
+                    {{ page_obj.paginator.count }}
+                </strong>
+
+                patients
+
+            </div>
+
+
+
+            <!-- PAGINATION BUTTONS -->
 
             <div class="pagination-buttons">
 
-                <button disabled>
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
 
-                <button class="page-active">1</button>
+                <!-- PREVIOUS -->
 
-                <button>2</button>
+                {% if page_obj.has_previous %}
 
-                <button>3</button>
+                    <a
+                        href="?page={{ page_obj.previous_page_number }}&search={{ search }}&status={{ selected_status }}&gender={{ selected_gender }}"
+                        class="pagination-btn"
+                    >
 
-                <span>...</span>
+                        <i class="fa-solid fa-chevron-left"></i>
 
-                <button>208</button>
+                    </a>
 
-                <button>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                {% else %}
+
+                    <button
+                        class="pagination-btn disabled"
+                        disabled
+                    >
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                    </button>
+
+                {% endif %}
+
+
+
+                <!-- PAGE NUMBERS -->
+
+                {% for number in page_obj.paginator.page_range %}
+
+                    {% if number == page_obj.number %}
+
+                        <span class="pagination-number active">
+
+                            {{ number }}
+
+                        </span>
+
+
+                    {% elif number <= 3 %}
+
+                        <a
+                            href="?page={{ number }}&search={{ search }}&status={{ selected_status }}&gender={{ selected_gender }}"
+                            class="pagination-number"
+                        >
+
+                            {{ number }}
+
+                        </a>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+
+                <!-- NEXT -->
+
+                {% if page_obj.has_next %}
+
+                    <a
+                        href="?page={{ page_obj.next_page_number }}&search={{ search }}&status={{ selected_status }}&gender={{ selected_gender }}"
+                        class="pagination-btn"
+                    >
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                {% else %}
+
+                    <button
+                        class="pagination-btn disabled"
+                        disabled
+                    >
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </button>
+
+                {% endif %}
 
             </div>
 
         </div>
 
+        {% endif %}
+
     </div>
 
-</section>
+</div>
+
+
+
+<!-- =====================================================
+     DELETE CONFIRMATION SCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const deleteButtons =
+            document.querySelectorAll(
+                ".patient-action.delete"
+            );
+
+
+        deleteButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        const confirmed =
+                            confirm(
+                                "Are you sure you want to delete this patient?"
+                            );
+
+
+                        if (!confirmed) {
+
+                            event.preventDefault();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
 
 {% endblock %}

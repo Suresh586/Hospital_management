@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block patients_active %}active{% endblock %}
+
+{% block title %}
+CarePlus | Register Patient
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/add_patient.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="patient-form-page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <div class="patient-form-header">
+
+        <div class="patient-form-heading">
+
+            <div class="patient-form-icon">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    PATIENT MANAGEMENT
+                </span>
+
+                <h1>Register Patient</h1>
+
+                <p>
+                    Add a new patient to the CarePlus hospital system
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'patients' %}"
+            class="back-patients-btn"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Patients
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FORM
+    ========================================== -->
+
+    <form
+        method="POST"
+        class="patient-registration-form"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- =====================================
+             PERSONAL INFORMATION
+        ====================================== -->
+
+        <div class="patient-form-card">
+
+            <div class="patient-form-card-header">
+
+                <div class="patient-section-icon blue">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+
+                    <h2>Personal Information</h2>
+
+                    <p>
+                        Enter the patient's basic information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="patient-form-card-body">
+
+                <div class="patient-form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="patient-field full">
+
+                        <label>
+                            Full Name
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter patient's full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="patient@example.com"
+                        >
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Phone Number
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="+91 98765 43210"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- GENDER -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Gender
+                            <span>*</span>
+                        </label>
+
+                        <select
+                            name="gender"
+                            required
+                        >
+
+                            <option value="">
+                                Select Gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DOB -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Date of Birth
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_of_birth"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- BLOOD GROUP -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Blood Group
+                            <span>*</span>
+                        </label>
+
+                        <select
+                            name="blood_group"
+                            required
+                        >
+
+                            <option value="">
+                                Select Blood Group
+                            </option>
+
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="patient-field">
+
+                        <label>
+                            Status
+                        </label>
+
+                        <select name="status">
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ADDRESS -->
+
+                    <div class="patient-field full">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                            name="address"
+                            rows="3"
+                            placeholder="Enter patient's complete address"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================
+             EMERGENCY CONTACT
+        ========================================== -->
+
+        <div class="patient-form-card patient-form-delay">
+
+            <div class="patient-form-card-header">
+
+                <div class="patient-section-icon red">
+                    <i class="fa-solid fa-truck-medical"></i>
+                </div>
+
+                <div>
+
+                    <h2>Emergency Contact</h2>
+
+                    <p>
+                        Person to contact in case of emergency
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="patient-form-card-body">
+
+                <div class="patient-form-grid">
+
+
+                    <div class="patient-field">
+
+                        <label>
+                            Contact Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="emergency_contact_name"
+                            placeholder="Emergency contact name"
+                        >
+
+                    </div>
+
+
+                    <div class="patient-field">
+
+                        <label>
+                            Contact Phone
+                        </label>
+
+                        <input
+                            type="text"
+                            name="emergency_contact_phone"
+                            placeholder="+91 98765 43210"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================
+             BUTTONS
+        ========================================== -->
+
+        <div class="patient-form-actions">
+
+            <a
+                href="{% url 'patients' %}"
+                class="patient-cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="patient-save-btn"
+            >
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Register Patient
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</section>
+
+{% endblock %}

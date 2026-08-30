@@ -11,7 +11,9 @@ active
 
 {% block content %}
 
-<!-- ================= TOP BAR ================= -->
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
 
 <header class="topbar">
 
@@ -21,14 +23,19 @@ active
             Welcome back 👋
         </p>
 
-        <h1>Hospital Dashboard</h1>
+        <h1>
+            Hospital Dashboard
+        </h1>
 
     </div>
 
 
     <div class="top-actions">
 
-        <button class="notification">
+        <button
+            class="notification"
+            type="button"
+        >
             🔔
             <span class="notification-dot"></span>
         </button>
@@ -63,15 +70,24 @@ active
 </header>
 
 
-<!-- ================= OVERVIEW ================= -->
+<!-- =========================================================
+     OVERVIEW
+========================================================= -->
 
 <section class="overview">
+
+
+    <!-- =====================================================
+         SECTION HEADER
+    ====================================================== -->
 
     <div class="section-heading">
 
         <div>
 
-            <h2>Overview</h2>
+            <h2>
+                Overview
+            </h2>
 
             <p>
                 Here's what's happening in your hospital today.
@@ -79,19 +95,27 @@ active
 
         </div>
 
-        <button class="date-button">
-            📅 Today
+
+        <button
+            class="date-button"
+            type="button"
+        >
+            📅 {{ today|date:"d M Y" }}
         </button>
 
     </div>
 
 
-    <!-- ================= STAT CARDS ================= -->
+    <!-- =====================================================
+         STAT CARDS
+    ====================================================== -->
 
     <div class="stats-grid">
 
 
-        <!-- Patients -->
+        <!-- =================================================
+             TOTAL PATIENTS
+        ================================================== -->
 
         <div class="stat-card">
 
@@ -101,24 +125,50 @@ active
                     ♙
                 </div>
 
-                <span class="growth positive">
-                    +12.5%
-                </span>
+
+                {% if patient_growth > 0 %}
+
+                    <span class="growth positive">
+                        +{{ patient_growth }}%
+                    </span>
+
+                {% elif patient_growth < 0 %}
+
+                    <span class="growth negative">
+                        {{ patient_growth }}%
+                    </span>
+
+                {% else %}
+
+                    <span class="growth">
+                        0%
+                    </span>
+
+                {% endif %}
 
             </div>
 
-            <p>Total Patients</p>
 
-            <h3>1,248</h3>
+            <p>
+                Total Patients
+            </p>
+
+
+            <h3>
+                {{ total_patients }}
+            </h3>
+
 
             <span class="stat-footer">
-                Compared to last month
+                Registered patients
             </span>
 
         </div>
 
 
-        <!-- Doctors -->
+        <!-- =================================================
+             DOCTORS
+        ================================================== -->
 
         <div class="stat-card">
 
@@ -128,24 +178,37 @@ active
                     ⚕
                 </div>
 
+
                 <span class="growth positive">
-                    +4.2%
+                    {{ available_doctors }} available
                 </span>
 
             </div>
 
-            <p>Active Doctors</p>
 
-            <h3>86</h3>
+            <p>
+                Active Doctors
+            </p>
+
+
+            <h3>
+                {{ available_doctors }}
+            </h3>
+
 
             <span class="stat-footer">
-                8 departments
+
+                {{ total_doctors }}
+                total doctors
+
             </span>
 
         </div>
 
 
-        <!-- Appointments -->
+        <!-- =================================================
+             TODAY'S APPOINTMENTS
+        ================================================== -->
 
         <div class="stat-card">
 
@@ -155,24 +218,40 @@ active
                     ▣
                 </div>
 
+
                 <span class="growth positive">
-                    +8.7%
+
+                    {{ remaining_appointments }}
+                    remaining
+
                 </span>
 
             </div>
 
-            <p>Today's Appointments</p>
 
-            <h3>124</h3>
+            <p>
+                Today's Appointments
+            </p>
+
+
+            <h3>
+                {{ today_appointment_count }}
+            </h3>
+
 
             <span class="stat-footer">
-                18 remaining
+
+                {{ remaining_appointments }}
+                upcoming
+
             </span>
 
         </div>
 
 
-        <!-- Revenue -->
+        <!-- =================================================
+             MONTHLY REVENUE
+        ================================================== -->
 
         <div class="stat-card">
 
@@ -182,18 +261,42 @@ active
                     ₹
                 </div>
 
-                <span class="growth positive">
-                    +15.3%
-                </span>
+
+                {% if revenue_growth > 0 %}
+
+                    <span class="growth positive">
+                        +{{ revenue_growth }}%
+                    </span>
+
+                {% elif revenue_growth < 0 %}
+
+                    <span class="growth negative">
+                        {{ revenue_growth }}%
+                    </span>
+
+                {% else %}
+
+                    <span class="growth">
+                        0%
+                    </span>
+
+                {% endif %}
 
             </div>
 
-            <p>Monthly Revenue</p>
 
-            <h3>₹8.42L</h3>
+            <p>
+                Monthly Revenue
+            </p>
+
+
+            <h3>
+                ₹{{ monthly_revenue|floatformat:2 }}
+            </h3>
+
 
             <span class="stat-footer">
-                Compared to last month
+                Amount collected this month
             </span>
 
         </div>
@@ -201,20 +304,27 @@ active
     </div>
 
 
-    <!-- ================= CONTENT GRID ================= -->
+    <!-- =====================================================
+         MAIN CONTENT GRID
+    ====================================================== -->
 
     <div class="content-grid">
 
 
-        <!-- APPOINTMENTS -->
+        <!-- =================================================
+             TODAY'S APPOINTMENTS
+        ================================================== -->
 
         <div class="panel appointments-panel">
+
 
             <div class="panel-header">
 
                 <div>
 
-                    <h2>Today's Appointments</h2>
+                    <h2>
+                        Today's Appointments
+                    </h2>
 
                     <p>
                         Upcoming patient appointments
@@ -222,7 +332,8 @@ active
 
                 </div>
 
-                <a href="#">
+
+                <a href="/appointments/">
                     View all →
                 </a>
 
@@ -232,167 +343,145 @@ active
             <div class="appointment-list">
 
 
-                <div class="appointment">
+                {% for appointment in today_appointments %}
 
-                    <div class="patient-avatar blue">
-                        AK
+
+                    <div class="appointment">
+
+
+                        <!-- PATIENT AVATAR -->
+
+                        <div class="patient-avatar blue">
+
+                            {{ appointment.patient.name|first|upper }}
+
+                        </div>
+
+
+                        <!-- PATIENT INFORMATION -->
+
+                        <div class="appointment-info">
+
+                            <strong>
+                                {{ appointment.patient.name }}
+                            </strong>
+
+                            <span>
+
+                                {% if appointment.reason %}
+
+                                    {{ appointment.reason }}
+
+                                {% else %}
+
+                                    General Consultation
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- TIME -->
+
+                        <div class="appointment-time">
+
+                            <strong>
+                                {{ appointment.time|time:"h:i A" }}
+                            </strong>
+
+                            <span>
+                                Dr. {{ appointment.doctor.name }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        {% if appointment.status == "Confirmed" %}
+
+                            <span class="status confirmed">
+                                Confirmed
+                            </span>
+
+
+                        {% elif appointment.status == "Pending" %}
+
+                            <span class="status waiting">
+                                Pending
+                            </span>
+
+
+                        {% elif appointment.status == "Completed" %}
+
+                            <span class="status confirmed">
+                                Completed
+                            </span>
+
+
+                        {% elif appointment.status == "Cancelled" %}
+
+                            <span class="status cancelled">
+                                Cancelled
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status waiting">
+                                {{ appointment.status }}
+                            </span>
+
+                        {% endif %}
+
+
                     </div>
 
-                    <div class="appointment-info">
+
+                {% empty %}
+
+
+                    <div class="empty-state">
+
+                        <div>
+                            📅
+                        </div>
 
                         <strong>
-                            Arun Kumar
+                            No appointments today
                         </strong>
 
                         <span>
-                            General Consultation
+                            There are no appointments scheduled for today.
                         </span>
 
                     </div>
 
-                    <div class="appointment-time">
 
-                        <strong>
-                            10:30 AM
-                        </strong>
+                {% endfor %}
 
-                        <span>
-                            Dr. Priya
-                        </span>
-
-                    </div>
-
-                    <span class="status confirmed">
-                        Confirmed
-                    </span>
-
-                </div>
-
-
-                <div class="appointment">
-
-                    <div class="patient-avatar purple">
-                        RS
-                    </div>
-
-                    <div class="appointment-info">
-
-                        <strong>
-                            Rahul Sharma
-                        </strong>
-
-                        <span>
-                            Cardiology
-                        </span>
-
-                    </div>
-
-                    <div class="appointment-time">
-
-                        <strong>
-                            11:45 AM
-                        </strong>
-
-                        <span>
-                            Dr. Rajesh
-                        </span>
-
-                    </div>
-
-                    <span class="status waiting">
-                        Waiting
-                    </span>
-
-                </div>
-
-
-                <div class="appointment">
-
-                    <div class="patient-avatar green">
-                        SM
-                    </div>
-
-                    <div class="appointment-info">
-
-                        <strong>
-                            Sneha Mehta
-                        </strong>
-
-                        <span>
-                            Dermatology
-                        </span>
-
-                    </div>
-
-                    <div class="appointment-time">
-
-                        <strong>
-                            01:30 PM
-                        </strong>
-
-                        <span>
-                            Dr. Anjali
-                        </span>
-
-                    </div>
-
-                    <span class="status confirmed">
-                        Confirmed
-                    </span>
-
-                </div>
-
-
-                <div class="appointment">
-
-                    <div class="patient-avatar orange">
-                        VK
-                    </div>
-
-                    <div class="appointment-info">
-
-                        <strong>
-                            Vikram Kumar
-                        </strong>
-
-                        <span>
-                            Orthopedics
-                        </span>
-
-                    </div>
-
-                    <div class="appointment-time">
-
-                        <strong>
-                            03:15 PM
-                        </strong>
-
-                        <span>
-                            Dr. Amit
-                        </span>
-
-                    </div>
-
-                    <span class="status cancelled">
-                        Cancelled
-                    </span>
-
-                </div>
 
             </div>
 
         </div>
 
 
-        <!-- QUICK ACTIONS -->
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
 
         <div class="panel quick-panel">
+
 
             <div class="panel-header">
 
                 <div>
 
-                    <h2>Quick Actions</h2>
+                    <h2>
+                        Quick Actions
+                    </h2>
 
                     <p>
                         Frequently used actions
@@ -405,7 +494,13 @@ active
 
             <div class="quick-grid">
 
-                <a href="#" class="quick-action">
+
+                <!-- ADD PATIENT -->
+
+                <a
+                    href="/patients/"
+                    class="quick-action"
+                >
 
                     <div class="quick-icon patient">
                         +
@@ -418,7 +513,12 @@ active
                 </a>
 
 
-                <a href="#" class="quick-action">
+                <!-- ADD DOCTOR -->
+
+                <a
+                    href="/doctors/"
+                    class="quick-action"
+                >
 
                     <div class="quick-icon doctor">
                         ⚕
@@ -431,7 +531,12 @@ active
                 </a>
 
 
-                <a href="#" class="quick-action">
+                <!-- NEW APPOINTMENT -->
+
+                <a
+                    href="/appointments/"
+                    class="quick-action"
+                >
 
                     <div class="quick-icon appointment">
                         +
@@ -444,7 +549,12 @@ active
                 </a>
 
 
-                <a href="#" class="quick-action">
+                <!-- CREATE BILL -->
+
+                <a
+                    href="/billing/"
+                    class="quick-action"
+                >
 
                     <div class="quick-icon billing">
                         ₹
@@ -456,6 +566,7 @@ active
 
                 </a>
 
+
             </div>
 
         </div>
@@ -463,115 +574,108 @@ active
     </div>
 
 
-    <!-- ================= BOTTOM ================= -->
+    <!-- =====================================================
+         BOTTOM GRID
+    ====================================================== -->
 
     <div class="bottom-grid">
 
 
-        <!-- DEPARTMENTS -->
+        <!-- =================================================
+             DEPARTMENTS
+        ================================================== -->
 
         <div class="panel department-panel">
+
 
             <div class="panel-header">
 
                 <div>
 
-                    <h2>Departments</h2>
+                    <h2>
+                        Departments
+                    </h2>
 
                     <p>
-                        Patient distribution
+                        Current month appointment distribution
                     </p>
 
                 </div>
-
-                <a href="#">
-                    View all →
-                </a>
 
             </div>
 
 
             <div class="department-list">
 
-                <div class="department">
 
-                    <div class="department-name">
+                {% for department in departments %}
 
-                        <span class="department-dot cardiology"></span>
 
-                        Cardiology
+                    <div class="department">
+
+
+                        <div class="department-name">
+
+                            <span class="department-dot cardiology"></span>
+
+                            {{ department.doctor__specialization }}
+
+                        </div>
+
+
+                        <strong>
+                            {{ department.total }}
+                        </strong>
+
 
                     </div>
 
-                    <strong>286</strong>
 
-                </div>
-
-
-                <div class="department">
-
-                    <div class="department-name">
-
-                        <span class="department-dot general"></span>
-
-                        General Medicine
-
-                    </div>
-
-                    <strong>342</strong>
-
-                </div>
+                {% empty %}
 
 
-                <div class="department">
+                    <div class="empty-state">
 
-                    <div class="department-name">
+                        <strong>
+                            No department data
+                        </strong>
 
-                        <span class="department-dot ortho"></span>
-
-                        Orthopedics
+                        <span>
+                            Appointment data will appear here.
+                        </span>
 
                     </div>
 
-                    <strong>198</strong>
 
-                </div>
+                {% endfor %}
 
-
-                <div class="department">
-
-                    <div class="department-name">
-
-                        <span class="department-dot dental"></span>
-
-                        Dental
-
-                    </div>
-
-                    <strong>156</strong>
-
-                </div>
 
             </div>
 
         </div>
 
 
-        <!-- SYSTEM STATUS -->
+        <!-- =================================================
+             SYSTEM STATUS
+        ================================================== -->
 
         <div class="panel system-panel">
+
 
             <div class="panel-header">
 
                 <div>
 
-                    <h2>System Status</h2>
+                    <h2>
+                        System Status
+                    </h2>
 
                     <p>
                         Hospital services
                     </p>
 
                 </div>
+
 
                 <span class="online">
                     ● All systems operational
@@ -582,6 +686,9 @@ active
 
             <div class="system-list">
 
+
+                <!-- PATIENT MANAGEMENT -->
+
                 <div>
 
                     <span>
@@ -589,11 +696,16 @@ active
                     </span>
 
                     <strong>
-                        Operational
+
+                        {{ total_patients }}
+                        Patients
+
                     </strong>
 
                 </div>
 
+
+                <!-- APPOINTMENT SYSTEM -->
 
                 <div>
 
@@ -602,11 +714,16 @@ active
                     </span>
 
                     <strong>
-                        Operational
+
+                        {{ today_appointment_count }}
+                        Today
+
                     </strong>
 
                 </div>
 
+
+                <!-- PHARMACY -->
 
                 <div>
 
@@ -614,12 +731,26 @@ active
                         Pharmacy
                     </span>
 
-                    <strong>
-                        Operational
-                    </strong>
+
+                    {% if low_stock_medicines > 0 %}
+
+                        <strong>
+                            {{ low_stock_medicines }}
+                            Low Stock
+                        </strong>
+
+                    {% else %}
+
+                        <strong>
+                            Stock Healthy
+                        </strong>
+
+                    {% endif %}
 
                 </div>
 
+
+                <!-- BILLING -->
 
                 <div>
 
@@ -628,16 +759,20 @@ active
                     </span>
 
                     <strong>
-                        Operational
+
+                        ₹{{ monthly_revenue|floatformat:2 }}
+
                     </strong>
 
                 </div>
+
 
             </div>
 
         </div>
 
     </div>
+
 
 </section>
 

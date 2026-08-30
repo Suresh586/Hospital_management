@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block pharmacy_active %}active{% endblock %}
+
+{% block title %}Delete Medicine | CarePlus{% endblock %}
+
+{% block content %}
+
+<div class="pharmacy-page">
+
+    <div class="delete-card">
+
+        <div class="delete-icon">
+            🗑
+        </div>
+
+        <h1>Delete Medicine?</h1>
+
+        <p>
+            Are you sure you want to delete
+            <strong>{{ medicine.medicine_name }}</strong>?
+        </p>
+
+        <span class="delete-warning">
+            This action cannot be undone.
+        </span>
+
+
+        <form method="POST"
+              class="delete-actions">
+
+            {% csrf_token %}
+
+            <a href="{% url 'medicine_list' %}"
+               class="cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="delete-confirm-btn">
+                Delete Medicine
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+{% load static %}
+
+<link rel="stylesheet"
+      href="{% static 'css/pharmacy.css' %}">
+
+{% endblock %}

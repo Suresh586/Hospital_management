@@ -1,0 +1,417 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block doctors_active %}
+active
+{% endblock %}
+
+
+{% block title %}
+CarePlus | {% if edit_mode %}Edit Doctor{% else %}Add Doctor{% endif %}
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/doctors.css' %}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="doctors-page">
+
+    <div class="doctor-form-page">
+
+
+        <div class="doctor-form-header">
+
+            <div>
+
+                <span class="doctors-eyebrow">
+                    DOCTOR MANAGEMENT
+                </span>
+
+                <h1>
+
+                    {% if edit_mode %}
+                        Edit Doctor
+                    {% else %}
+                        Register New Doctor
+                    {% endif %}
+
+                </h1>
+
+                <p>
+                    Enter doctor information and availability.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'doctors' %}"
+                class="doctor-back-btn"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Doctors
+
+            </a>
+
+        </div>
+
+
+
+        <form
+            method="POST"
+            class="doctor-form-card"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- BASIC INFORMATION -->
+
+            <div class="doctor-form-section">
+
+                <h2>
+                    <i class="fa-solid fa-user-doctor"></i>
+                    Basic Information
+                </h2>
+
+
+                <div class="doctor-form-grid">
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Doctor Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            value="{{ doctor.name|default:'' }}"
+                            placeholder="Enter doctor name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Email *
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            value="{{ doctor.email|default:'' }}"
+                            placeholder="doctor@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Phone *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            value="{{ doctor.phone|default:'' }}"
+                            placeholder="Enter phone number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Specialization *
+                        </label>
+
+                        <select
+                            name="specialization"
+                            required
+                        >
+
+                            <option value="">
+                                Select specialization
+                            </option>
+
+                            {% for value, label in specialization_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if doctor.specialization == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="doctor-form-group full">
+
+                        <label>
+                            Qualification *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="qualification"
+                            value="{{ doctor.qualification|default:'' }}"
+                            placeholder="Example: MBBS, MD"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROFESSIONAL INFORMATION -->
+
+            <div class="doctor-form-section">
+
+                <h2>
+
+                    <i class="fa-solid fa-briefcase-medical"></i>
+
+                    Professional Information
+
+                </h2>
+
+
+                <div class="doctor-form-grid">
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Experience (Years) *
+                        </label>
+
+                        <input
+                            type="number"
+                            name="experience"
+                            value="{{ doctor.experience|default:'' }}"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Consultation Fee *
+                        </label>
+
+                        <input
+                            type="number"
+                            name="consultation_fee"
+                            value="{{ doctor.consultation_fee|default:'' }}"
+                            min="0"
+                            step="0.01"
+                            placeholder="₹"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group full">
+
+                        <label>
+                            Available Days *
+                        </label>
+
+                        <input
+                            type="text"
+                            name="available_days"
+                            value="{{ doctor.available_days|default:'' }}"
+                            placeholder="Example: Mon, Tue, Wed, Thu, Fri"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Start Time *
+                        </label>
+
+                        <input
+                            type="time"
+                            name="start_time"
+                            value="{{ doctor.start_time|time:'H:i' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            End Time *
+                        </label>
+
+                        <input
+                            type="time"
+                            name="end_time"
+                            value="{{ doctor.end_time|time:'H:i' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="doctor-form-group">
+
+                        <label>
+                            Status *
+                        </label>
+
+                        <select
+                            name="status"
+                            required
+                        >
+
+                            <option
+                                value="Available"
+                                {% if doctor.status == "Available" or not doctor %}
+                                    selected
+                                {% endif %}
+                            >
+                                Available
+                            </option>
+
+                            <option
+                                value="Unavailable"
+                                {% if doctor.status == "Unavailable" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Unavailable
+                            </option>
+
+                            <option
+                                value="On Leave"
+                                {% if doctor.status == "On Leave" %}
+                                    selected
+                                {% endif %}
+                            >
+                                On Leave
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="doctor-form-actions">
+
+                <a
+                    href="{% url 'doctors' %}"
+                    class="doctor-cancel-btn"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="doctor-save-btn"
+                >
+
+                    <i class="fa-solid fa-check"></i>
+
+                    {% if edit_mode %}
+                        Update Doctor
+                    {% else %}
+                        Register Doctor
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.querySelector(".doctor-form-card");
+
+
+        form.addEventListener(
+            "submit",
+            function () {
+
+                const saveButton =
+                    form.querySelector(
+                        ".doctor-save-btn"
+                    );
+
+                saveButton.disabled = true;
+
+                saveButton.innerHTML =
+                    '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

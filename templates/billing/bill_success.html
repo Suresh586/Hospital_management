@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block billing_active %}active{% endblock %}
+
+{% block title %}
+Bill Generated Successfully | CarePlus
+{% endblock %}
+
+
+{% block content %}
+
+<div class="billing-page">
+
+    <div class="billing-success-page">
+
+        <!-- SUCCESS ICON -->
+
+        <div class="billing-success-icon">
+            ✓
+        </div>
+
+
+        <!-- SUCCESS MESSAGE -->
+
+        <span class="billing-eyebrow">
+            BILLING COMPLETED
+        </span>
+
+        <h1>
+            Bill Generated Successfully
+        </h1>
+
+        <p class="billing-success-subtitle">
+            The patient bill has been created and securely stored
+            in the CarePlus billing system.
+        </p>
+
+
+        <!-- BILL NUMBER -->
+
+        <div class="billing-success-number">
+
+            <span>
+                BILL NUMBER
+            </span>
+
+            <strong>
+                {{ bill.bill_number }}
+            </strong>
+
+        </div>
+
+
+        <!-- BILL SUMMARY -->
+
+        <div class="billing-success-summary">
+
+            <div class="success-summary-row">
+
+                <span>
+                    Patient
+                </span>
+
+                <strong>
+                    {{ bill.patient.name }}
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-row">
+
+                <span>
+                    Patient ID
+                </span>
+
+                <strong>
+                    {{ bill.patient.patient_id }}
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-row">
+
+                <span>
+                    Doctor
+                </span>
+
+                <strong>
+                    Dr. {{ bill.doctor.name }}
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-row">
+
+                <span>
+                    Payment Status
+                </span>
+
+                <strong>
+
+                    {% if bill.payment_status == "Paid" %}
+
+                        <span class="billing-status status-paid">
+                            Paid
+                        </span>
+
+                    {% elif bill.payment_status == "Partial" %}
+
+                        <span class="billing-status status-partial">
+                            Partial
+                        </span>
+
+                    {% elif bill.payment_status == "Cancelled" %}
+
+                        <span class="billing-status status-cancelled">
+                            Cancelled
+                        </span>
+
+                    {% else %}
+
+                        <span class="billing-status status-pending">
+                            Pending
+                        </span>
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-divider"></div>
+
+
+            <div class="success-total-row">
+
+                <span>
+                    Total Amount
+                </span>
+
+                <strong>
+                    ₹{{ bill.total_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-row">
+
+                <span>
+                    Amount Paid
+                </span>
+
+                <strong>
+                    ₹{{ bill.amount_paid|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="success-summary-row">
+
+                <span>
+                    Balance
+                </span>
+
+                <strong>
+                    ₹{{ bill.balance_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="billing-success-actions">
+
+            <a
+                href="{% url 'billing:detail' bill.id %}"
+                class="billing-primary-btn"
+            >
+                View Bill
+            </a>
+
+
+            <button
+                type="button"
+                class="billing-secondary-btn"
+                onclick="window.print()"
+            >
+                🖨 Print Bill
+            </button>
+
+
+            <a
+                href="{% url 'billing:history' %}"
+                class="billing-secondary-btn"
+            >
+                Billing History
+            </a>
+
+
+            <a
+                href="{% url 'billing:create' %}"
+                class="billing-secondary-btn"
+            >
+                + Create Another Bill
+            </a>
+
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div class="secure-note">
+
+            🔒
+            Billing information has been securely saved.
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/billing.css' %}"
+>
+
+{% endblock %}
